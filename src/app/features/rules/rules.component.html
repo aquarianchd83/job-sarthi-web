@@ -1,0 +1,50 @@
+<div class="top">
+  <div><h1>Rules</h1><div class="sub">Jobs that fail a rule are dropped. The rest get a fit score from 0 to 100.</div></div>
+  <button class="btn p" (click)="save()" [disabled]="!rule() || saving()">{{ saving() ? 'Saving...' : 'Save rules' }}</button>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+@if (rule(); as r) {
+  <div class="cols">
+    <div class="card">
+      <h2>What you want</h2>
+      <label class="f">Target roles
+        <app-chip-input label="Target roles" placeholder="Add a role and press Enter" [values]="r.roles" (valuesChange)="patch({ roles: $event })" />
+      </label>
+      <div class="g">
+        <label class="f">Min experience (years)<input type="number" min="0" [ngModel]="r.minExperience" (ngModelChange)="patch({ minExperience: $event })" /></label>
+        <label class="f">Max experience (years)<input type="number" min="0" [ngModel]="r.maxExperience" (ngModelChange)="patch({ maxExperience: $event })" /></label>
+        <label class="f full">Minimum salary (LPA)
+          <input type="number" min="0" placeholder="Leave empty to ignore" [ngModel]="r.minSalaryLpa" (ngModelChange)="patch({ minSalaryLpa: $event === '' ? null : $event })" />
+        </label>
+      </div>
+      <p class="hint">Salary only filters jobs that state a figure in LPA. Most postings do not.</p>
+    </div>
+
+    <div class="card">
+      <h2>Where</h2>
+      <label class="f">Locations
+        <app-chip-input label="Locations" placeholder="Add a city or 'Remote'" [values]="r.locations" (valuesChange)="patch({ locations: $event })" />
+      </label>
+      <p class="hint">Add "Remote" to accept remote jobs open to anywhere. Add "India" to accept "Remote, India".</p>
+      <div class="f">Work mode
+        <div class="seg" role="group" aria-label="Work mode">
+          @for (m of modes; track m.label) {
+            <button type="button" [class.on]="r.workMode === m.value" (click)="patch({ workMode: m.value })">{{ m.label }}</button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Keywords that raise the score</h2>
+      <app-chip-input label="Keywords" placeholder="Add a keyword" [values]="r.keywords" (valuesChange)="patch({ keywords: $event })" />
+    </div>
+
+    <div class="card">
+      <h2>Never show these companies</h2>
+      <app-chip-input label="Blacklisted companies" placeholder="Add a company" [danger]="true" [values]="r.blacklistedCompanies" (valuesChange)="patch({ blacklistedCompanies: $event })" />
+    </div>
+  </div>
+}
+@if (msg()) { <div class="toast" role="status">{{ msg() }}</div> }

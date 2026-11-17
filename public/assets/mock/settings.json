@@ -1,0 +1,1 @@
+{ "dailyRunTimeIst": "09:00", "dailyApplyLimit": 10, "gapBetweenAppliesSeconds": 90, "applyMode": "Approval", "useGemini": false, "useOllama": false }

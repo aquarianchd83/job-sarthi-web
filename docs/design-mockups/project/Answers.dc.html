@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Saved answers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.btn.p{background:#0F6E6E;border-color:#0F6E6E;color:#fff}
+.ask{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 20px;background:#E6F0FF;border:1px solid #B5D0F5;border-radius:8px}
+.ask b{display:block;margin-bottom:4px;color:#0F3F7A}.ask span{font-size:14px;color:#0F3F7A}
+.ask .f{display:flex;gap:8px;align-items:center}
+.ask input{font:14px Inter,sans-serif;border:1px solid #8FB2E6;border-radius:6px;padding:8px 10px;width:220px}
+.row{display:grid;grid-template-columns:1fr 1fr 150px;gap:14px;align-items:center;padding:13px 20px;border-top:1px solid #E8EBF0;font-size:14px}
+.row.h{border-top:0;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.06em;padding:11px 20px}
+.t{font-weight:500}.m{color:#5B6675;font-size:13px}
+.acts{display:flex;gap:8px;justify-content:flex-end}
+.ft{display:flex;gap:10px;padding:16px 20px;border-top:1px solid #E8EBF0;align-items:center}
+.ft input{font:14px Inter,sans-serif;border:1px solid #C5CCD6;border-radius:6px;padding:8px 10px;flex:1}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav">Shortlist</div>
+    <div class="nav">Applications</div>
+    <div class="nav">Job Sources</div>
+    <div class="nav">Rules</div>
+    <div class="nav on">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div class="top"><div><h1>Saved Answers</h1><div class="sub">Used to fill application forms. Anything not listed here pauses the application and asks you.</div></div></div>
+    <div class="ask">
+      <div><b>Shopify is waiting for you</b><span>Unknown question: "Are you open to relocating to Ottawa?"</span></div>
+      <div class="f"><input type="text" aria-label="Your answer" placeholder="Type your answer"><button class="btn p">Answer and resume</button><button class="btn">Save for next time</button></div>
+    </div>
+    <div class="card">
+      <div class="row h"><div>Question</div><div>Answer</div><div></div></div>
+      <div class="row"><div class="t">Notice period</div><div>30 days</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="row"><div class="t">Expected CTC</div><div>35 LPA</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="row"><div class="t">Current CTC</div><div>28 LPA</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="row"><div class="t">Work authorization</div><div>Authorized to work in India</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="row"><div class="t">Willing to relocate</div><div>Within India only</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="row"><div class="t">How did you hear about us</div><div>Company careers page</div><div class="acts"><button class="btn">Edit</button></div></div>
+      <div class="ft"><input type="text" aria-label="New question" placeholder="Question"><input type="text" aria-label="New answer" placeholder="Answer"><button class="btn p">Add answer</button></div>
+    </div>
+    <div class="sub">CAPTCHAs and one-time codes are never saved. The run pauses and waits for you to handle them.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<div class="top">
+  <div><h1>Settings</h1><div class="sub">All times are shown in IST (India Standard Time).</div></div>
+  <button class="btn p" (click)="save()" [disabled]="!s()">Save settings</button>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+@if (s(); as v) {
+  <div class="cols">
+    <div class="card">
+      <h2>Daily run</h2>
+      <div class="sw first"><div>Run automatically every day<span class="m">Fetch, filter, score, tailor and queue applications.</span></div>
+        <button class="tg" [class.on]="v.schedulerEnabled" (click)="v.schedulerEnabled = !v.schedulerEnabled" aria-label="Toggle daily run"></button></div>
+      <div class="g">
+        <label class="f">Run time (IST, 24h)<input type="text" [(ngModel)]="v.dailyRunTimeIst" placeholder="09:00" /></label>
+        <label class="f">Next run<input type="text" [value]="nextRunUtc() ? (nextRunUtc() | istDate) : 'Switched off'" readonly /></label>
+        <label class="f">Max applications per day<input type="number" [(ngModel)]="v.dailyApplyLimit" min="0" max="100" /></label>
+        <label class="f">Gap between submits (seconds)<input type="number" [(ngModel)]="v.gapBetweenAppliesSeconds" min="0" /></label>
+        <label class="f full">Only apply to jobs with fit score of at least<input type="number" [(ngModel)]="v.autoApplyMinScore" min="0" max="100" /></label>
+      </div>
+      <p class="m">If the server was off at run time, the run starts when it is back, up to 6 hours late. After that you get an alert.</p>
+      <div class="runrow">
+        <button class="btn" (click)="runNow()" [disabled]="running()">{{ running() ? 'Running...' : 'Run now' }}</button>
+        <span class="m">Runs the same routine immediately. Save settings first if you changed them.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Apply mode</h2>
+      <label class="opt" [class.on]="v.applyMode === 'Approval'">
+        <input type="radio" name="mode" value="Approval" [(ngModel)]="v.applyMode" />
+        <span><b>Approval mode (recommended)</b>Fills the form, then waits for you to approve before submitting.</span>
+      </label>
+      <label class="opt" [class.on]="v.applyMode === 'FullAuto'">
+        <input type="radio" name="mode" value="FullAuto" [(ngModel)]="v.applyMode" />
+        <span><b>Full auto</b>Submits on its own up to the daily limit. Still pauses on unknown questions, CAPTCHAs and codes.</span>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Tailoring engine</h2>
+      <div class="sw first"><div>Rule-based<span class="m">Always on.</span></div><button class="tg on" disabled aria-label="Rule-based always on"></button></div>
+      <div class="sw"><div>Gemini free tier<span class="m">Falls back to rule-based at the limit. Sends your skills and the job text to Google.</span><span class="m det">{{ engine('gemini')?.detail }}</span></div><button class="tg" [class.on]="v.useGemini" (click)="v.useGemini = !v.useGemini" aria-label="Toggle Gemini"></button></div>
+      <div class="sw"><div>Ollama local model<span class="m">Runs on this server. Nothing leaves it.</span><span class="m det">{{ engine('ollama')?.detail }}</span></div><button class="tg" [class.on]="v.useOllama" (click)="v.useOllama = !v.useOllama" aria-label="Toggle Ollama"></button></div>
+      <p class="m">Save settings after switching an engine. Add the Gemini key to appsettings.Local.json.</p>
+    </div>
+
+    <div class="card">
+      <h2>Notifications</h2>
+      <div class="sw first"><div>Send the daily shortlist and summary<span class="m">After each run: counts, what needs you, and the top new matches with links.</span></div>
+        <button class="tg" [class.on]="v.notifySummary" (click)="v.notifySummary = !v.notifySummary" aria-label="Toggle daily summary"></button></div>
+      <div class="sw"><div>Send failure alerts<span class="m">When a source breaks, a site changes, an application fails, or a run fails or is missed.</span></div>
+        <button class="tg" [class.on]="v.notifyAlerts" (click)="v.notifyAlerts = !v.notifyAlerts" aria-label="Toggle failure alerts"></button></div>
+
+      <div class="chan">
+        <div class="cn"><b>Telegram</b> <span class="b" [class.auto]="channel('telegram')?.configured" [class.alert]="!channel('telegram')?.configured">{{ channel('telegram')?.configured ? 'Set up' : 'Not set up' }}</span></div>
+        <div class="m">{{ channel('telegram')?.detail }}</div>
+        <button class="btn" (click)="findChats()">Find my chat id</button>
+        @if (chats(); as c) {
+          @for (x of c; track x.chatId) { <div class="m">Chat <b>{{ x.chatId }}</b> ({{ x.name || 'unnamed' }}). Use this as Telegram:ChatId.</div> }
+          @empty { <div class="m">No messages found. Send your bot any message in Telegram, then try again.</div> }
+        }
+        @if (chatError()) { <div class="err">{{ chatError() }}</div> }
+      </div>
+      <div class="chan">
+        <div class="cn"><b>Email</b> <span class="b" [class.auto]="channel('email')?.configured" [class.alert]="!channel('email')?.configured">{{ channel('email')?.configured ? 'Set up' : 'Not set up' }}</span></div>
+        <div class="m">{{ channel('email')?.detail }}</div>
+      </div>
+
+      <div class="runrow">
+        <button class="btn" (click)="sendTest()" [disabled]="testing()">{{ testing() ? 'Sending...' : 'Send test message' }}</button>
+        <span class="m">Needs the channels above set up in appsettings.Local.json, then restart the API.</span>
+      </div>
+      @for (r of testResults(); track r.channel) {
+        <div [class]="r.ok ? 'm okline' : 'err'">{{ r.channel }}: {{ r.message }}</div>
+      }
+    </div>
+
+    <div class="card flush hist">
+      <h2 class="hh">Recent runs</h2>
+      @for (r of history(); track r.id) {
+        <div class="run">
+          <div class="rt">{{ r.startedAtUtc | istDate }} <span class="b" [class.auto]="r.trigger === 'schedule'" [class.fetch]="r.trigger === 'manual'">{{ r.trigger === 'schedule' ? 'Scheduled' : 'Manual' }}</span></div>
+          @if (r.error) { <div class="err">Failed: {{ r.error }}</div> }
+          @else if (!r.finishedAtUtc) { <div class="m">Running...</div> }
+          @else { <div class="m">{{ r.fetched }} fetched, {{ r.newJobs }} new, {{ r.shortlisted }} match your rules, {{ r.queued }} application{{ r.queued === 1 ? '' : 's' }} queued</div> }
+          @for (n of r.notes; track $index) { <div class="note">{{ n }}</div> }
+        </div>
+      } @empty {
+        <div class="run m">No runs yet.</div>
+      }
+    </div>
+  </div>
+}
+@if (msg()) { <div class="toast" role="status">{{ msg() }}</div> }

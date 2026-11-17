@@ -1,0 +1,9 @@
+[
+  { "key": "greenhouse", "displayName": "Greenhouse", "capability": "FetchAndApply", "enabled": true,  "lastRunUtc": "2026-11-17T03:30:12Z", "lastJobCount": 42, "companySlugs": ["stripe", "airbnb"] },
+  { "key": "lever",      "displayName": "Lever",      "capability": "FetchAndApply", "enabled": true,  "lastRunUtc": "2026-11-17T03:30:40Z", "lastJobCount": 17, "companySlugs": ["netflix"] },
+  { "key": "ashby",      "displayName": "Ashby",      "capability": "FetchAndApply", "enabled": false, "lastRunUtc": null, "lastJobCount": 0, "companySlugs": [] },
+  { "key": "remoteok",   "displayName": "RemoteOK",   "capability": "FetchOnly",     "enabled": true,  "lastRunUtc": "2026-11-17T03:31:02Z", "lastJobCount": 63 },
+  { "key": "weworkremotely", "displayName": "WeWorkRemotely", "capability": "FetchOnly", "enabled": true, "lastRunUtc": "2026-11-17T03:31:20Z", "lastJobCount": 28 },
+  { "key": "naukri",     "displayName": "Naukri (email alerts)",   "capability": "AlertsOnly", "enabled": true,  "lastRunUtc": "2026-11-17T03:31:30Z", "lastJobCount": 9 },
+  { "key": "linkedin",   "displayName": "LinkedIn (email alerts)", "capability": "AlertsOnly", "enabled": false, "lastRunUtc": null, "lastJobCount": 0 }
+]

@@ -1,0 +1,86 @@
+<h1>Applications</h1>
+<div class="sub">Every application keeps a log and a screenshot. Times are in IST.</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+<div class="fl">
+  <button class="btn" [class.on]="filter() === 'all'" (click)="filter.set('all')">All ({{ items().length }})</button>
+  <button class="btn" [class.on]="filter() === 'needs'" (click)="filter.set('needs')">Needs you ({{ count('needs') }})</button>
+  <button class="btn" [class.on]="filter() === 'submitted'" (click)="filter.set('submitted')">Submitted ({{ count('submitted') }})</button>
+  <button class="btn" [class.on]="filter() === 'failed'" (click)="filter.set('failed')">Failed ({{ count('failed') }})</button>
+</div>
+
+<div class="cols">
+  <div class="card flush list">
+    <div class="row h"><div>Role</div><div>Status</div><div>Updated</div></div>
+    @for (i of visible(); track i.id) {
+      <button type="button" class="row item" [class.sel]="selected()?.id === i.id" (click)="select(i)">
+        <div><div class="t">{{ i.title }}</div><div class="m">{{ i.company || 'Company in the link' }} &middot; {{ i.sourceKey }}</div></div>
+        <div><span [class]="'b ' + cls(i.status)">{{ label(i.status) }}</span></div>
+        <div class="m">{{ i.updatedAtUtc | istDate }}</div>
+      </button>
+    } @empty {
+      <div class="row empty">No applications yet. Press Apply on a shortlisted Greenhouse, Lever or Ashby job.</div>
+    }
+  </div>
+
+  @if (selected(); as d) {
+    <div class="card det">
+      <div>
+        <h2>{{ d.title }}</h2>
+        <div class="m">{{ d.company || 'Company in the link' }} &middot; <span [class]="'b ' + cls(d.status)">{{ label(d.status) }}</span></div>
+        @if (d.submittedAtUtc) { <div class="m">Submitted {{ d.submittedAtUtc | istDate }}</div> }
+      </div>
+
+      @if (d.status === 'AwaitingApproval') {
+        <div class="box wait">
+          The form is filled and checked. Nothing has been sent yet. Look at the screenshot, then approve.
+          <div class="acts">
+            <button class="btn p" (click)="approve(d)">Approve and submit</button>
+            <button class="btn" (click)="cancel(d)">Cancel</button>
+          </div>
+        </div>
+      }
+
+      @if (d.status === 'PausedNeedsInput') {
+        @for (q of questions(d); track q.id) {
+          <div class="box ask">
+            <b>{{ q.prompt }}</b>
+            <input type="text" [attr.aria-label]="q.prompt" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event" placeholder="Your answer" />
+            <label class="chk"><input type="checkbox" [ngModel]="answerOf(q.id).save" (ngModelChange)="answerOf(q.id).save = $event" /> Save for next time</label>
+            <div class="acts"><button class="btn p" (click)="submitAnswer(d, q.id)" [disabled]="!answerOf(q.id).text.trim()">Answer and resume</button></div>
+          </div>
+        }
+        @for (q of blockers(d); track q.id) {
+          <div class="box ask">
+            {{ q.prompt }}
+            <div class="acts">
+              <a class="btn p" [href]="d.url" target="_blank" rel="noopener noreferrer">Open job link</a>
+              <button class="btn" (click)="manual(d)">I will apply manually</button>
+            </div>
+          </div>
+        }
+      }
+
+      @if (d.status === 'Failed' || d.status === 'Cancelled' || d.status === 'ManualApply') {
+        <div class="acts">
+          @if (d.status !== 'ManualApply') { <button class="btn p" (click)="retry(d)">Retry</button> }
+          <a class="btn" [href]="d.url" target="_blank" rel="noopener noreferrer">Open job link</a>
+        </div>
+      }
+
+      <div>
+        <h3>Log</h3>
+        <div class="log">
+          @for (l of d.log; track $index) { <div class="ev"><time>{{ l.atUtc | istDate }}</time><span>{{ l.message }}</span></div> }
+        </div>
+      </div>
+
+      @if (d.hasScreenshot) {
+        <div>
+          <h3>Screenshot</h3>
+          <a [href]="shot(d)" target="_blank" rel="noopener noreferrer"><img [src]="shot(d)" alt="Screenshot of the application form" class="shot" /></a>
+        </div>
+      }
+    </div>
+  }
+</div>

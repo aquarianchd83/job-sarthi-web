@@ -1,0 +1,13 @@
+:host { display: block; }
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.list { margin-top: 16px; }
+.row { display: grid; grid-template-columns: 52px 1fr 130px 190px 110px 80px; gap: 12px; align-items: center; padding: 14px 18px; border-top: 1px solid #e8ebf0; font-size: 14px; }
+.row.h { border-top: 0; font-size: 12px; font-weight: 600; color: #5b6675; text-transform: uppercase; letter-spacing: .06em; padding: 11px 18px; }
+.sl, .note, .warn { grid-column: 2 / 7; margin-top: -4px; }
+.sl { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.note { font-size: 13px; color: #5b6675; }
+.warn { font-size: 13px; color: #8a1c14; background: #fdeceb; border-radius: 6px; padding: 6px 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; background: #f0f3f7; border: 1px solid #dde2e9; border-radius: 6px; padding: 3px 6px 3px 10px; }
+.chip button { border: 0; background: none; color: #5b6675; font-size: 14px; cursor: pointer; padding: 0 2px; }
+.add { display: flex; gap: 6px; }
+.add input { width: 150px; padding: 6px 10px; font-size: 13px; }

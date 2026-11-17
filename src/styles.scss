@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; color: #14181f; background: #f3f5f8; }
+h1 { margin: 0; font: 600 26px 'Space Grotesk', sans-serif; }
+h2 { margin: 0 0 14px; font: 600 16px 'Space Grotesk', sans-serif; }
+.sub { color: #5b6675; font-size: 13px; margin-top: 4px; }
+.card { background: #fff; border: 1px solid #e1e5eb; border-radius: 8px; padding: 20px; }
+.card.flush { padding: 0; }
+.btn { font: 500 13px Inter, sans-serif; padding: 7px 14px; border-radius: 6px; border: 1px solid #c5ccd6; background: #fff; color: #14181f; cursor: pointer; }
+.btn.p { background: #0f6e6e; border-color: #0f6e6e; color: #fff; }
+.btn:disabled { opacity: .5; cursor: default; }
+.b { display: inline-block; font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.b.auto { background: #ddf1ee; color: #0b5555; }
+.b.fetch { background: #e8ecf3; color: #3a4658; }
+.b.alert { background: #fbebd3; color: #7a4a06; }
+.t { font-weight: 500; }
+.m { color: #5b6675; font-size: 13px; }
+input[type='text'], input[type='number'], select { font: 14px Inter, sans-serif; border: 1px solid #c5ccd6; border-radius: 6px; padding: 8px 10px; color: #14181f; background: #fff; }
+label.f { display: flex; flex-direction: column; gap: 5px; font-size: 12px; font-weight: 600; color: #5b6675; text-transform: uppercase; letter-spacing: .05em; }
+label.f input, label.f select { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.tg { width: 38px; height: 22px; border-radius: 11px; background: #b8c0cc; position: relative; display: block; border: 0; padding: 0; cursor: pointer; flex: none; }
+.tg::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
+.tg.on { background: #0f6e6e; }
+.tg.on::after { left: 19px; }
+.toast { position: fixed; right: 24px; bottom: 24px; background: #14181f; color: #fff; padding: 10px 16px; border-radius: 6px; font-size: 14px; }
+.err { color: #8a1c14; font-size: 13px; }

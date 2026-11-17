@@ -1,0 +1,44 @@
+<div class="top">
+  <div>
+    <h1>Job Sources</h1>
+    <div class="sub">The daily run only visits sources that are switched on.</div>
+  </div>
+  <button class="btn p" (click)="fetchNow()" [disabled]="running() !== null">
+    {{ running() === 'all' ? 'Fetching...' : 'Fetch enabled sources now' }}
+  </button>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+<div class="card flush list">
+  <div class="row h"><div>On</div><div>Source</div><div>Capability</div><div>Last run (IST)</div><div>Jobs</div><div></div></div>
+  @for (s of sources(); track s.key) {
+    <div class="row">
+      <button class="tg" [class.on]="s.enabled" (click)="toggle(s)" [attr.aria-label]="'Toggle ' + s.displayName" [attr.aria-pressed]="s.enabled"></button>
+      <div class="t">{{ s.displayName }}</div>
+      <div><span [class]="'b ' + badge(s)">{{ badgeText(s) }}</span></div>
+      <div class="m">{{ s.lastRunUtc ? (s.lastRunUtc | istDate) : 'Never run' }}</div>
+      <div class="t">
+        {{ s.lastJobCount }}
+        @if (added(s.key) !== undefined) { <span class="m"> (+{{ added(s.key) }} new)</span> }
+      </div>
+      <div><button class="btn" (click)="fetchNow(s.key)" [disabled]="running() !== null">{{ running() === s.key ? '...' : 'Fetch' }}</button></div>
+
+      @if (s.lastError) { <div class="warn">{{ s.lastError }}</div> }
+
+      @if (usesSlugs(s)) {
+        <div class="sl">
+          <span class="m">Companies:</span>
+          @for (slug of s.companySlugs; track slug) {
+            <span class="chip">{{ slug }}<button (click)="remove(s, slug)" [attr.aria-label]="'Remove ' + slug">&times;</button></span>
+          }
+          <span class="add">
+            <input #slug type="text" placeholder="company-slug" [attr.aria-label]="'Add ' + s.displayName + ' company slug'" (keydown.enter)="add(s, slug)" />
+            <button class="btn" (click)="add(s, slug)">Add</button>
+          </span>
+        </div>
+      } @else if (s.capability === 'AlertsOnly') {
+        <div class="note">Reads job-alert emails from your inbox over IMAP and adds each job with its link. No scraping.</div>
+      }
+    </div>
+  }
+</div>

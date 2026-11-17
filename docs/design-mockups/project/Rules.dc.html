@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rules</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+h2{margin:0 0 14px;font:600 16px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px;padding:20px}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.btn.p{background:#0F6E6E;border-color:#0F6E6E;color:#fff}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.05em}
+input{font:14px Inter,sans-serif;border:1px solid #C5CCD6;border-radius:6px;padding:8px 10px;color:#14181F;background:#fff;text-transform:none;letter-spacing:0;font-weight:400}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.chip{display:inline-flex;gap:6px;align-items:center;font-size:13px;background:#F0F3F7;border:1px solid #DDE2E9;border-radius:6px;padding:3px 6px 3px 10px;text-transform:none;letter-spacing:0;font-weight:400;color:#14181F}
+.chip.bl{background:#FDE9E7;border-color:#F3C4C0;color:#8A1C14}
+.chip button{border:0;background:none;color:inherit;font-size:14px;cursor:pointer;padding:0 2px}
+.seg{display:flex;gap:0}
+.seg span{padding:8px 16px;border:1px solid #C5CCD6;font-size:14px;color:#14181F;background:#fff;text-transform:none;letter-spacing:0;font-weight:400}
+.seg span:first-child{border-radius:6px 0 0 6px}.seg span:last-child{border-radius:0 6px 6px 0}.seg span+span{border-left:0}
+.seg span.on{background:#14181F;color:#fff;border-color:#14181F}
+.prev{display:flex;align-items:center;justify-content:space-between;background:#EAF4F3;border:1px solid #BFDDDA;border-radius:8px;padding:14px 18px;font-size:14px;color:#0B4545}
+.full{grid-column:1 / 3}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav">Shortlist</div>
+    <div class="nav">Applications</div>
+    <div class="nav">Job Sources</div>
+    <div class="nav on">Rules</div>
+    <div class="nav">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div class="top"><div><h1>Rules</h1><div class="sub">Jobs that fail a rule are dropped. The rest are scored 0 to 100.</div></div><button class="btn p">Save rules</button></div>
+    <div class="cols">
+      <div class="card">
+        <h2>What you want</h2>
+        <div class="g">
+          <label class="full" for="r">Target roles<input id="r" type="text" placeholder="Add a role and press Enter"><span class="chips"><span class="chip">Senior .NET Developer<button aria-label="Remove">&times;</button></span><span class="chip">Full Stack Developer<button aria-label="Remove">&times;</button></span></span></label>
+          <label for="a">Min experience (years)<input id="a" type="text" value="5"></label>
+          <label for="b">Max experience (years)<input id="b" type="text" value="12"></label>
+          <label class="full" for="s">Minimum salary (LPA)<input id="s" type="text" value="25"></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Where</h2>
+        <div class="g">
+          <label class="full" for="lo">Locations<input id="lo" type="text" placeholder="Add a city"><span class="chips"><span class="chip">Bengaluru<button aria-label="Remove">&times;</button></span><span class="chip">Pune<button aria-label="Remove">&times;</button></span><span class="chip">Remote<button aria-label="Remove">&times;</button></span></span></label>
+          <label class="full">Work mode<span class="seg"><span>Any</span><span class="on">Remote</span><span>Hybrid</span><span>Onsite</span></span></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Keywords that raise the score</h2>
+        <label for="k">Keywords<input id="k" type="text" placeholder="Add a keyword"><span class="chips"><span class="chip">C#<button aria-label="Remove">&times;</button></span><span class="chip">Angular<button aria-label="Remove">&times;</button></span><span class="chip">Azure<button aria-label="Remove">&times;</button></span><span class="chip">Microservices<button aria-label="Remove">&times;</button></span></span></label>
+      </div>
+      <div class="card">
+        <h2>Never show these companies</h2>
+        <label for="c">Blacklisted companies<input id="c" type="text" placeholder="Add a company"><span class="chips"><span class="chip bl">BadCorp<button aria-label="Remove">&times;</button></span><span class="chip bl">SpamStaffing Ltd<button aria-label="Remove">&times;</button></span></span></label>
+      </div>
+    </div>
+    <div class="prev"><span><b>Preview:</b> 150 jobs fetched in the last run, 5 would pass these rules.</span><button class="btn">Re-check last run</button></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

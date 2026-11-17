@@ -1,0 +1,1 @@
+{ "fullName": "Mock User", "email": "mock@example.com", "phone": "+91-9000000000", "headline": "Senior .NET / Angular Developer", "totalExperienceYears": 8, "skills": ["C#", ".NET", "Angular", "SQL Server", "Playwright"], "resumeFileName": "resume.pdf" }

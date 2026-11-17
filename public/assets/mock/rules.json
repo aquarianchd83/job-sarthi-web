@@ -1,0 +1,1 @@
+{ "roles": ["Senior .NET Developer", "Full Stack Developer"], "minExperience": 5, "maxExperience": 12, "locations": ["Bengaluru", "Pune", "Remote"], "workMode": "Remote", "minSalaryLpa": 25, "keywords": ["C#", "Angular", "Azure"], "blacklistedCompanies": ["BadCorp"] }

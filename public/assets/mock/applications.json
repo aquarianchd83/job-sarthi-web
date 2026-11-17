@@ -1,0 +1,6 @@
+[
+  { "id": 1, "jobId": 1, "status": "Submitted", "screenshotUrl": "assets/mock/screenshot-1.png", "createdAtUtc": "2026-11-17T03:40:00Z", "submittedAtUtc": "2026-11-17T03:42:10Z",
+    "log": [ { "atUtc": "2026-11-17T03:40:00Z", "message": "Tailored resume (rule-based)" }, { "atUtc": "2026-11-17T03:42:10Z", "message": "Submitted via Greenhouse form" } ] },
+  { "id": 2, "jobId": 2, "status": "PausedNeedsInput", "createdAtUtc": "2026-11-17T03:44:00Z",
+    "log": [ { "atUtc": "2026-11-17T03:45:30Z", "message": "Unknown question: 'Are you open to relocation?' - waiting for user" } ] }
+]

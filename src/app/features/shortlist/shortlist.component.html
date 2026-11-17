@@ -1,0 +1,51 @@
+<div class="top">
+  <div>
+    <h1>Shortlist</h1>
+    @if (stats(); as s) {
+      <div class="sub">{{ s.shortlisted }} of {{ s.total }} fetched jobs match your rules, best fit first.</div>
+    }
+  </div>
+  <div class="fl">
+    <button class="btn" [class.on]="filter() === 'all'" (click)="filter.set('all')">All</button>
+    <button class="btn" [class.on]="filter() === 'auto'" (click)="filter.set('auto')">Auto-apply</button>
+    <button class="btn" [class.on]="filter() === 'manual'" (click)="filter.set('manual')">Manual</button>
+    <button class="btn" (click)="rescore()" [disabled]="busy()">{{ busy() ? 'Working...' : 'Re-apply rules' }}</button>
+  </div>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+<div class="card flush list">
+  <div class="row h"><div>Fit</div><div>Role</div><div>Source</div><div>Location</div><div>Fetched (IST)</div><div>Actions</div></div>
+  @for (j of visible(); track j.id) {
+    <div class="row">
+      <div class="sc" [title]="j.scoreNotes ?? ''">{{ j.fitScore }}<span class="bar"><i [style.width.%]="j.fitScore"></i></span></div>
+      <div>
+        <div class="t">{{ j.title }}</div>
+        <div class="m">{{ j.company || 'Company in the link' }}</div>
+        @if (j.scoreNotes) { <div class="notes">{{ j.scoreNotes }}</div> }
+      </div>
+      <div><span [class]="'b ' + badge(j)">{{ label(j.sourceKey) }}</span></div>
+      <div class="m">{{ j.location || '-' }} &middot; {{ j.workMode }}</div>
+      <div class="m">{{ j.fetchedAtUtc | istDate }}</div>
+      <div class="acts">
+        <button class="btn" (click)="tailoring.set(j)">Tailor</button>
+        @if (j.canAutoApply) {
+          <button class="btn p" (click)="apply(j)">Apply</button>
+        } @else {
+          <a class="btn" [href]="j.url" target="_blank" rel="noopener noreferrer">Open link</a>
+          <button class="btn" (click)="markApplied(j)">Mark applied</button>
+        }
+      </div>
+    </div>
+  } @empty {
+    <div class="row empty">
+      Nothing matches yet. Set your Rules, then fetch from Job Sources.
+    </div>
+  }
+</div>
+
+@if (toast()) { <div class="toast" role="status">{{ toast() }}</div> }
+
+@if (tailoring(); as t) {
+  <app-tailor-panel [job]="t" (closed)="tailoring.set(null)" />
+}

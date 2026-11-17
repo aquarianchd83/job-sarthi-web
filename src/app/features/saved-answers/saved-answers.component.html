@@ -1,0 +1,37 @@
+<h1>Saved Answers</h1>
+<div class="sub">Used to fill application forms. Any required question not listed here pauses the application and asks you.</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+@if (waiting() > 0) {
+  <div class="ask">
+    <span><b>{{ waiting() }} application{{ waiting() === 1 ? ' is' : 's are' }} waiting for an answer.</b></span>
+    <a class="btn p" routerLink="/applications">Open Applications</a>
+  </div>
+}
+
+<div class="card flush list">
+  <div class="row h"><div>Question</div><div>Answer</div><div></div></div>
+  @for (r of rows(); track r.id) {
+    @if (editing() === r.id) {
+      <div class="row">
+        <input type="text" aria-label="Question" [(ngModel)]="draft.question" />
+        <input type="text" aria-label="Answer" [(ngModel)]="draft.answer" />
+        <div class="acts"><button class="btn p" (click)="save(r)">Save</button><button class="btn" (click)="editing.set(null)">Cancel</button></div>
+      </div>
+    } @else {
+      <div class="row">
+        <div class="t">{{ r.question }}</div>
+        <div>{{ r.answer }}</div>
+        <div class="acts"><button class="btn" (click)="edit(r)">Edit</button><button class="btn" (click)="remove(r)" [attr.aria-label]="'Delete ' + r.question">Delete</button></div>
+      </div>
+    }
+  } @empty {
+    <div class="row empty">Nothing saved yet. Add the usual ones: notice period, expected CTC, work authorization.</div>
+  }
+  <div class="ft">
+    <input type="text" aria-label="New question" placeholder="Question, e.g. Notice period" [(ngModel)]="newQ" />
+    <input type="text" aria-label="New answer" placeholder="Answer" [(ngModel)]="newA" />
+    <button class="btn p" (click)="add()" [disabled]="!newQ.trim() || !newA.trim()">Add answer</button>
+  </div>
+</div>
+<p class="sub">A saved question matches a form question when all its words appear in it. "Notice period" matches "What is your notice period?" but "Current CTC" never matches "Expected CTC". CAPTCHAs and one-time codes are never saved.</p>

@@ -1,0 +1,10 @@
+:host { display: block; }
+.list { margin-top: 16px; }
+.row { display: grid; grid-template-columns: 1fr 1fr 170px; gap: 14px; align-items: center; padding: 12px 20px; border-top: 1px solid #e8ebf0; font-size: 14px; }
+.row.h { border-top: 0; font-size: 12px; font-weight: 600; color: #5b6675; text-transform: uppercase; letter-spacing: .06em; padding: 11px 20px; }
+.row.empty { display: block; color: #5b6675; }
+.acts { display: flex; gap: 8px; justify-content: flex-end; }
+.ft { display: flex; gap: 10px; padding: 16px 20px; border-top: 1px solid #e8ebf0; }
+.ft input { flex: 1; }
+.ask { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 18px; margin-top: 16px; background: #e6f0ff; border: 1px solid #b5d0f5; border-radius: 8px; color: #0f3f7a; font-size: 14px; }
+a.btn { text-decoration: none; display: inline-block; }

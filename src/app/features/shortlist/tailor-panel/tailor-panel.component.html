@@ -1,0 +1,58 @@
+<div class="scrim" (click)="closed.emit()"></div>
+<aside class="panel" role="dialog" aria-modal="true" aria-label="Tailor for this job">
+  <header>
+    <div>
+      <h2>{{ job().title }}</h2>
+      <div class="m">{{ job().company || 'Company in the link' }}</div>
+    </div>
+    <button class="x" (click)="closed.emit()" aria-label="Close">&times;</button>
+  </header>
+
+  @if (error()) { <p class="err">{{ error() }}</p> }
+
+  @if (busy()) { <p class="m">Tailoring for this job...</p> }
+  @if (!busy() && result(); as r) {
+    <div class="meta">
+      <span class="b eng">{{ engineLabel(r.engine) }}</span>
+      <span class="m">Tailored {{ r.tailoredAtUtc | istDate }}</span>
+    </div>
+    @if (r.note) { <p class="note">{{ r.note }}</p> }
+
+    <section>
+      <h3>In the posting and in your resume</h3>
+      <div class="chips">
+        @for (k of r.matchedKeywords; track k) { <span class="chip ok">{{ k }}</span> }
+        @empty { <span class="m">No overlap found with your listed skills.</span> }
+      </div>
+    </section>
+
+    <section>
+      <h3>In the posting, not in your resume</h3>
+      <div class="chips">
+        @for (k of r.missingKeywords; track k) { <span class="chip">{{ k }}</span> }
+        @empty { <span class="m">None.</span> }
+      </div>
+      <p class="hint">Shown for your information only. They are never added to your resume or letter.</p>
+    </section>
+
+    <section>
+      <h3>Your skills, most relevant first</h3>
+      <ol class="skills">
+        @for (s of r.orderedSkills; track s) { <li>{{ s }}</li> }
+      </ol>
+    </section>
+
+    <section>
+      <h3>Cover letter</h3>
+      <textarea [ngModel]="letter()" (ngModelChange)="letter.set($event)" rows="12" aria-label="Cover letter"></textarea>
+      <p class="hint">You can edit it. Edits that name a skill or years you do not have are refused.</p>
+    </section>
+
+    <div class="actions">
+      <button class="btn p" (click)="copy()">Copy letter</button>
+      <button class="btn" (click)="saveEdits()" [disabled]="!dirty()">Save edits</button>
+      <button class="btn" (click)="regenerate()">Regenerate</button>
+    </div>
+    @if (msg()) { <div class="ok-msg" role="status">{{ msg() }}</div> }
+  }
+</aside>

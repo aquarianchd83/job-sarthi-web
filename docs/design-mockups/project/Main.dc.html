@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shortlist</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px}
+.b{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.auto{background:#DDF1EE;color:#0B5555}.fetch{background:#E8ECF3;color:#3A4658}.alert{background:#FBEBD3;color:#7A4A06}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.btn.p{background:#0F6E6E;border-color:#0F6E6E;color:#fff}
+.row{display:grid;grid-template-columns:70px 1fr 130px 150px 110px 190px;gap:12px;align-items:center;padding:13px 18px;border-top:1px solid #E8EBF0;font-size:14px}
+.row.h{border-top:0;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.06em;padding:11px 18px}
+.t{font-weight:500}.m{color:#5B6675;font-size:13px}
+.sc{display:flex;align-items:center;gap:8px;font-weight:600}.bar{width:34px;height:6px;border-radius:3px;background:#E1E5EB;overflow:hidden}.bar i{display:block;height:100%;background:#0F6E6E}
+.ban{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:#FFF6E2;border:1px solid #F0D9A0;border-radius:8px;font-size:14px;color:#5C4306}
+.fl{display:flex;gap:10px;align-items:center}
+.fl .btn.on{background:#14181F;color:#fff;border-color:#14181F}
+.acts{display:flex;gap:8px}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav on">Shortlist</div>
+    <div class="nav">Applications</div>
+    <div class="nav">Job Sources</div>
+    <div class="nav">Rules</div>
+    <div class="nav">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div class="top">
+      <div><h1>Shortlist</h1><div class="sub">Today's run: 17 Nov 2026, 9:00 AM IST &middot; 150 fetched &middot; 5 passed your rules</div></div>
+      <div class="fl"><button class="btn on">All</button><button class="btn">Auto-apply</button><button class="btn">Manual</button></div>
+    </div>
+    <div class="ban"><span><b>2 applications</b> are waiting for your approval before they are submitted.</span><button class="btn p">Review approvals</button></div>
+    <div class="card">
+      <div class="row h"><div>Fit</div><div>Role</div><div>Source</div><div>Location</div><div>Fetched</div><div>Actions</div></div>
+      <div class="row"><div class="sc">91<span class="bar"><i style="width:91%"></i></span></div><div><div class="t">Senior .NET Engineer</div><div class="m">Stripe</div></div><div><span class="b auto">Greenhouse</span></div><div class="m">Bengaluru &middot; Hybrid</div><div class="m">9:00 AM</div><div class="acts"><button class="btn">Tailor</button><button class="btn p">Apply</button></div></div>
+      <div class="row"><div class="sc">84<span class="bar"><i style="width:84%"></i></span></div><div><div class="t">Backend Developer (C#)</div><div class="m">Netflix</div></div><div><span class="b auto">Lever</span></div><div class="m">Remote &middot; India</div><div class="m">9:01 AM</div><div class="acts"><button class="btn">Tailor</button><button class="btn p">Apply</button></div></div>
+      <div class="row"><div class="sc">72<span class="bar"><i style="width:72%"></i></span></div><div><div class="t">Full Stack Angular / .NET</div><div class="m">Acme</div></div><div><span class="b fetch">RemoteOK</span></div><div class="m">Worldwide &middot; Remote</div><div class="m">9:01 AM</div><div class="acts"><button class="btn">Tailor</button><button class="btn">Open link</button></div></div>
+      <div class="row"><div class="sc">69<span class="bar"><i style="width:69%"></i></span></div><div><div class="t">Software Engineer, API</div><div class="m">Doist</div></div><div><span class="b fetch">WeWorkRemotely</span></div><div class="m">Remote</div><div class="m">9:01 AM</div><div class="acts"><button class="btn">Tailor</button><button class="btn">Open link</button></div></div>
+      <div class="row"><div class="sc">66<span class="bar"><i style="width:66%"></i></span></div><div><div class="t">Lead .NET Developer</div><div class="m">Infotech Pvt Ltd</div></div><div><span class="b alert">Naukri alert</span></div><div class="m">Pune &middot; Onsite</div><div class="m">9:01 AM</div><div class="acts"><button class="btn">Open link</button><button class="btn">Mark applied</button></div></div>
+    </div>
+    <div class="sub">Auto-apply is available only for Greenhouse, Lever and Ashby. Other sources open the original posting so you apply yourself.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

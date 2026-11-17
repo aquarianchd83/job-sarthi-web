@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Job Sources</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:16px}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px}
+.b{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.auto{background:#DDF1EE;color:#0B5555}.fetch{background:#E8ECF3;color:#3A4658}.alert{background:#FBEBD3;color:#7A4A06}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.row{display:grid;grid-template-columns:52px 1fr 130px 190px 80px;gap:12px;align-items:center;padding:14px 18px;border-top:1px solid #E8EBF0;font-size:14px}
+.row.h{border-top:0;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.06em;padding:11px 18px}
+.t{font-weight:500}.m{color:#5B6675;font-size:13px}
+.tg{width:38px;height:22px;border-radius:11px;background:#B8C0CC;position:relative;display:block}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff}
+.tg.on{background:#0F6E6E}.tg.on::after{left:19px}
+.sl{grid-column:2 / 6;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:-4px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;background:#F0F3F7;border:1px solid #DDE2E9;border-radius:6px;padding:3px 6px 3px 10px}
+.chip button{border:0;background:none;color:#5B6675;font-size:14px;cursor:pointer;padding:0 2px}
+.add{display:flex;gap:6px}.add input{font:13px Inter,sans-serif;border:1px solid #C5CCD6;border-radius:6px;padding:6px 10px;width:150px}
+.note{grid-column:2 / 6;font-size:13px;color:#5B6675;margin-top:-4px}
+.grp{padding:12px 18px;background:#F7F8FA;border-top:1px solid #E8EBF0;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.06em}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav">Shortlist</div>
+    <div class="nav">Applications</div>
+    <div class="nav on">Job Sources</div>
+    <div class="nav">Rules</div>
+    <div class="nav">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div><h1>Job Sources</h1><div class="sub">The daily run only visits sources that are switched on.</div></div>
+    <div class="card">
+      <div class="row h"><div>On</div><div>Source</div><div>Capability</div><div>Last run (IST)</div><div>Jobs</div></div>
+      <div class="grp">Fetch and auto-apply (after your approval)</div>
+      <div class="row"><span class="tg on"></span><div class="t">Greenhouse</div><div><span class="b auto">Auto-apply</span></div><div class="m">17 Nov, 9:00 AM</div><div class="t">42</div>
+        <div class="sl"><span class="m">Companies:</span><span class="chip">stripe<button aria-label="Remove stripe">&times;</button></span><span class="chip">airbnb<button aria-label="Remove airbnb">&times;</button></span><span class="chip">shopify<button aria-label="Remove shopify">&times;</button></span><span class="add"><input type="text" placeholder="company-slug" aria-label="Add Greenhouse company slug"><button class="btn">Add</button></span></div></div>
+      <div class="row"><span class="tg on"></span><div class="t">Lever</div><div><span class="b auto">Auto-apply</span></div><div class="m">17 Nov, 9:01 AM</div><div class="t">17</div>
+        <div class="sl"><span class="m">Companies:</span><span class="chip">netflix<button aria-label="Remove netflix">&times;</button></span><span class="add"><input type="text" placeholder="company-slug" aria-label="Add Lever company slug"><button class="btn">Add</button></span></div></div>
+      <div class="row"><span class="tg"></span><div class="t">Ashby</div><div><span class="b auto">Auto-apply</span></div><div class="m">Never run</div><div class="t">0</div>
+        <div class="sl"><span class="m">Companies:</span><span class="chip">cloudflare<button aria-label="Remove cloudflare">&times;</button></span><span class="add"><input type="text" placeholder="company-slug" aria-label="Add Ashby company slug"><button class="btn">Add</button></span></div></div>
+      <div class="grp">Fetch only (you apply manually)</div>
+      <div class="row"><span class="tg on"></span><div class="t">RemoteOK</div><div><span class="b fetch">Fetch only</span></div><div class="m">17 Nov, 9:01 AM</div><div class="t">63</div></div>
+      <div class="row"><span class="tg on"></span><div class="t">WeWorkRemotely</div><div><span class="b fetch">Fetch only</span></div><div class="m">17 Nov, 9:01 AM</div><div class="t">28</div></div>
+      <div class="grp">Email alerts only (no scraping, you apply manually)</div>
+      <div class="row"><span class="tg on"></span><div class="t">Naukri</div><div><span class="b alert">Alerts only</span></div><div class="m">17 Nov, 9:01 AM</div><div class="t">9</div>
+        <div class="note">Reads job-alert emails from your inbox over IMAP and adds each job with its link.</div></div>
+      <div class="row"><span class="tg"></span><div class="t">LinkedIn</div><div><span class="b alert">Alerts only</span></div><div class="m">Never run</div><div class="t">0</div>
+        <div class="note">Needs the same inbox connection. Set it up in Settings.</div></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

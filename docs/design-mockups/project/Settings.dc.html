@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+h2{margin:0 0 14px;font:600 16px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px;padding:20px}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.btn.p{background:#0F6E6E;border-color:#0F6E6E;color:#fff}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.05em}
+input[type=text]{font:14px Inter,sans-serif;border:1px solid #C5CCD6;border-radius:6px;padding:8px 10px;color:#14181F;background:#fff;text-transform:none;letter-spacing:0;font-weight:400}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid #C5CCD6;border-radius:8px;font-size:14px;margin-bottom:10px}
+.opt.on{border-color:#0F6E6E;background:#EAF4F3}
+.opt input{margin-top:3px}.opt b{display:block;margin-bottom:2px}.opt span{color:#5B6675;font-size:13px}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #E8EBF0;font-size:14px}
+.sw:first-of-type{border-top:0}.sw span{color:#5B6675;font-size:13px;display:block}
+.tg{width:38px;height:22px;border-radius:11px;background:#B8C0CC;position:relative;display:block;flex:none}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff}
+.tg.on{background:#0F6E6E}.tg.on::after{left:19px}
+.warn{font-size:13px;color:#5C4306;background:#FFF6E2;border:1px solid #F0D9A0;border-radius:6px;padding:10px 12px}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav">Shortlist</div>
+    <div class="nav">Applications</div>
+    <div class="nav">Job Sources</div>
+    <div class="nav">Rules</div>
+    <div class="nav">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav on">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div class="top"><div><h1>Settings</h1><div class="sub">All times are in IST (India Standard Time).</div></div><button class="btn p">Save settings</button></div>
+    <div class="cols">
+      <div class="card">
+        <h2>Daily run</h2>
+        <div class="g">
+          <label for="t">Run time (IST)<input id="t" type="text" value="09:00 AM"></label>
+          <label for="l">Max applications per day<input id="l" type="text" value="10"></label>
+          <label for="gp">Gap between applications (seconds)<input id="gp" type="text" value="90"></label>
+          <label for="nx">Next run<input id="nx" type="text" value="Wed, 18 Nov, 9:00 AM" readonly></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Apply mode</h2>
+        <div class="opt on"><input type="radio" name="m" id="m1" checked><div><b><label for="m1" style="display:inline;font:600 14px Inter,sans-serif;text-transform:none;letter-spacing:0;color:#14181F">Approval mode (recommended)</label></b><span>Fills the form, then waits for you to approve before submitting.</span></div></div>
+        <div class="opt"><input type="radio" name="m" id="m2"><div><b><label for="m2" style="display:inline;font:600 14px Inter,sans-serif;text-transform:none;letter-spacing:0;color:#14181F">Full auto</label></b><span>Submits on its own, up to the daily limit. Still pauses on unknown questions, CAPTCHAs and OTPs.</span></div></div>
+      </div>
+      <div class="card">
+        <h2>Tailoring engine</h2>
+        <div class="sw"><div>Rule-based<span>Always on. Keywords, skill order and a template cover letter.</span></div><span class="tg on"></span></div>
+        <div class="sw"><div>Gemini free tier<span>Falls back to rule-based when the daily limit is hit.</span></div><span class="tg"></span></div>
+        <div class="sw"><div>Ollama local model<span>Runs on this server at localhost:11434.</span></div><span class="tg"></span></div>
+        <div class="warn" style="margin-top:12px">Tailoring only rewords what is already in your resume. It never adds skills or facts.</div>
+      </div>
+      <div class="card">
+        <h2>Notifications and email alerts</h2>
+        <div class="g">
+          <label for="tb">Telegram bot token<input id="tb" type="text" value="" placeholder="Paste token"></label>
+          <label for="tc">Telegram chat ID<input id="tc" type="text" value="" placeholder="e.g. 123456789"></label>
+          <label for="ih">IMAP host<input id="ih" type="text" value="imap.gmail.com"></label>
+          <label for="iu">Alert inbox<input id="iu" type="text" value="mock@example.com"></label>
+        </div>
+        <div class="sw" style="margin-top:10px"><div>Send daily summary<span>Shortlist and results, after each run.</span></div><span class="tg on"></span></div>
+        <div class="sw"><div>Alert me when a run or site fails<span>Also when a site layout changes.</span></div><span class="tg on"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-17T09:00:00Z" },
+  "title": "Job Sarthi UI Mockups",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html":         { "x": 0,    "y": 0,    "w": 1280, "h": 880, "title": "5 - Shortlist" },
+    "Applications.dc.html": { "x": 1360, "y": 0,    "w": 1280, "h": 880, "title": "6 - Applications tracker" },
+    "Sources.dc.html":      { "x": 0,    "y": 1000, "w": 1280, "h": 880, "title": "2 - Job Sources" },
+    "Resume.dc.html":       { "x": 1360, "y": 1000, "w": 1280, "h": 880, "title": "1 - Resume and profile" },
+    "Rules.dc.html":        { "x": 0,    "y": 2000, "w": 1280, "h": 880, "title": "3 - Rules" },
+    "Answers.dc.html":      { "x": 1360, "y": 2000, "w": 1280, "h": 880, "title": "4 - Saved answers" },
+    "Settings.dc.html":     { "x": 0,    "y": 3000, "w": 1280, "h": 880, "title": "7 - Settings" }
+  },
+  "order": ["Main.dc.html", "Applications.dc.html", "Sources.dc.html", "Resume.dc.html", "Rules.dc.html", "Answers.dc.html", "Settings.dc.html"],
+  "notes": {
+    "t1": { "x": 0, "y": -300, "text": "Job Sarthi - 7 screens", "kind": "title1", "maxW": 2640 }
+  },
+  "designSystems": []
+}

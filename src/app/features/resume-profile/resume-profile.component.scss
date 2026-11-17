@@ -1,0 +1,9 @@
+:host { display: block; }
+.top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; gap: 16px; }
+.cols { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.drop { width: 300px; flex: none; display: flex; flex-direction: column; gap: 14px; }
+.zone { border: 2px dashed #aeb7c4; border-radius: 8px; padding: 26px 16px; text-align: center; font-size: 13px; color: #5b6675; line-height: 1.6; cursor: pointer; }
+.zone:hover { border-color: #0f6e6e; color: #0f6e6e; }
+.file { display: flex; flex-direction: column; gap: 2px; font-size: 13px; border: 1px solid #e1e5eb; border-radius: 6px; padding: 10px 12px; word-break: break-all; }
+.prof { flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 18px; }
+.g { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }

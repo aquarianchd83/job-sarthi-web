@@ -1,0 +1,17 @@
+.scrim { position: fixed; inset: 0; background: rgba(20, 24, 31, .45); z-index: 50; }
+.panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(560px, 100%); background: #fff; z-index: 51; overflow-y: auto; padding: 24px; box-shadow: -8px 0 24px rgba(0, 0, 0, .15); display: flex; flex-direction: column; gap: 14px; }
+header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+h2 { margin: 0 0 2px; font: 600 18px 'Space Grotesk', sans-serif; }
+h3 { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: #5b6675; text-transform: uppercase; letter-spacing: .06em; }
+.x { border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; color: #5b6675; }
+.meta { display: flex; gap: 10px; align-items: center; }
+.eng { background: #ddf1ee; color: #0b5555; }
+.note { margin: 0; font-size: 13px; background: #fff6e2; border: 1px solid #f0d9a0; color: #5c4306; border-radius: 6px; padding: 8px 10px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { font-size: 13px; background: #f0f3f7; border: 1px solid #dde2e9; border-radius: 6px; padding: 3px 10px; }
+.chip.ok { background: #ddf1ee; border-color: #b9e0da; color: #0b5555; }
+.hint { margin: 8px 0 0; font-size: 12px; color: #5b6675; }
+.skills { margin: 0; padding-left: 20px; columns: 2; font-size: 14px; line-height: 1.7; }
+textarea { width: 100%; font: 14px/1.5 Inter, sans-serif; border: 1px solid #c5ccd6; border-radius: 6px; padding: 10px; resize: vertical; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.ok-msg { font-size: 13px; color: #0b5555; }

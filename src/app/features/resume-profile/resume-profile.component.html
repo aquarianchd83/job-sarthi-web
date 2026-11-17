@@ -1,0 +1,41 @@
+<div class="top">
+  <div><h1>Resume &amp; Profile</h1><div class="sub">Upload once. Tailoring only reuses what is written here. It never adds skills you do not list.</div></div>
+  <button class="btn p" (click)="save()" [disabled]="!p()">Save profile</button>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+@if (p(); as v) {
+  <div class="cols">
+    <div class="card drop">
+      <h2>Resume file</h2>
+      <label class="zone" (dragover)="$event.preventDefault()" (drop)="onDrop($event)">
+        <input type="file" accept=".pdf,.docx" (change)="onFile($event)" hidden />
+        {{ uploading() ? 'Reading your resume...' : 'Drop a PDF or DOCX here or click to choose' }}
+      </label>
+      @if (v.resumeFileName) {
+        <div class="file"><span>{{ v.resumeFileName }}</span><span class="m">Uploaded {{ v.resumeUploadedAtUtc | istDate }}</span></div>
+      } @else {
+        <div class="m">No resume uploaded yet. Max 5 MB.</div>
+      }
+    </div>
+
+    <div class="prof">
+      <div class="card">
+        <h2>Profile</h2>
+        <div class="g">
+          <label class="f">Full name<input type="text" [ngModel]="v.fullName" (ngModelChange)="patch({ fullName: $event })" /></label>
+          <label class="f">Headline<input type="text" [ngModel]="v.headline" (ngModelChange)="patch({ headline: $event })" /></label>
+          <label class="f">Email<input type="text" [ngModel]="v.email" (ngModelChange)="patch({ email: $event })" /></label>
+          <label class="f">Phone<input type="text" [ngModel]="v.phone" (ngModelChange)="patch({ phone: $event })" /></label>
+          <label class="f">Total experience (years)<input type="number" min="0" [ngModel]="v.totalExperienceYears" (ngModelChange)="patch({ totalExperienceYears: $event })" /></label>
+          <label class="f">Current location<input type="text" [ngModel]="v.location" (ngModelChange)="patch({ location: $event })" /></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Skills found</h2>
+        <app-chip-input label="Skills" placeholder="Add a skill you really have" [values]="v.skills" (valuesChange)="patch({ skills: $event })" />
+      </div>
+    </div>
+  </div>
+}
+@if (msg()) { <div class="toast" role="status">{{ msg() }}</div> }

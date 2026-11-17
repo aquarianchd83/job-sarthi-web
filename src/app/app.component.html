@@ -1,0 +1,9 @@
+<div class="shell">
+  <nav class="side">
+    <div class="brand">Job Sarthi</div>
+    @for (n of nav; track n.path) {
+      <a [routerLink]="n.path" routerLinkActive="on" class="nav">{{ n.label }}</a>
+    }
+  </nav>
+  <main class="main"><app-alerts-strip /><router-outlet /></main>
+</div>

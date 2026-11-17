@@ -1,0 +1,6 @@
+[
+  { "id": 1, "sourceKey": "greenhouse", "title": "Senior .NET Engineer", "company": "Stripe", "location": "Bengaluru", "workMode": "Hybrid", "url": "https://boards.greenhouse.io/mock/1", "fitScore": 91, "canAutoApply": true,  "fetchedAtUtc": "2026-11-17T03:30:12Z" },
+  { "id": 2, "sourceKey": "lever",      "title": "Backend Developer (C#)", "company": "Netflix", "location": "Remote - India", "workMode": "Remote", "url": "https://jobs.lever.co/mock/2", "fitScore": 84, "canAutoApply": true,  "fetchedAtUtc": "2026-11-17T03:30:40Z" },
+  { "id": 3, "sourceKey": "remoteok",   "title": "Full Stack Angular/.NET", "company": "Acme", "location": "Worldwide", "workMode": "Remote", "url": "https://remoteok.com/mock/3", "fitScore": 72, "canAutoApply": false, "fetchedAtUtc": "2026-11-17T03:31:02Z" },
+  { "id": 4, "sourceKey": "naukri",     "title": "Lead .NET Developer", "company": "Infotech Pvt Ltd", "location": "Pune", "workMode": "Onsite", "url": "https://www.naukri.com/job-listings-mock-4", "fitScore": 66, "canAutoApply": false, "fetchedAtUtc": "2026-11-17T03:31:30Z" }
+]

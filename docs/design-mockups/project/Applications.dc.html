@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Applications tracker</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#14181F;background:#F3F5F8}
+*{box-sizing:border-box}
+.app{display:flex;width:1280px;height:880px}
+.side{width:216px;flex:none;background:#14181F;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{font:600 19px 'Space Grotesk',sans-serif;color:#fff;padding:4px 10px 20px}
+.nav{padding:9px 10px;border-radius:6px;font-size:14px;color:#C9D1DC}
+.nav.on{background:#0F6E6E;color:#fff}
+.foot{margin-top:auto;padding:10px;font-size:12px;color:#9AA6B6;line-height:1.5}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+h1{margin:0;font:600 26px 'Space Grotesk',sans-serif}
+h2{margin:0;font:600 16px 'Space Grotesk',sans-serif}
+.sub{color:#5B6675;font-size:13px;margin-top:4px}
+.card{background:#fff;border:1px solid #E1E5EB;border-radius:8px}
+.b{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.ok{background:#DDF3E4;color:#14532D}.wait{background:#FFF1CC;color:#6B4A00}.pause{background:#DCEBFF;color:#0F3F7A}.bad{background:#FDE0DE;color:#8A1C14}.man{background:#E8ECF3;color:#3A4658}
+.btn{font:500 13px Inter,sans-serif;padding:7px 14px;border-radius:6px;border:1px solid #C5CCD6;background:#fff;color:#14181F;cursor:pointer}
+.btn.p{background:#0F6E6E;border-color:#0F6E6E;color:#fff}
+.cols{display:flex;gap:20px;align-items:flex-start}
+.list{flex:1;min-width:0}
+.row{display:grid;grid-template-columns:1fr 150px 110px;gap:12px;align-items:center;padding:13px 18px;border-top:1px solid #E8EBF0;font-size:14px}
+.row.h{border-top:0;font-size:12px;font-weight:600;color:#5B6675;text-transform:uppercase;letter-spacing:.06em;padding:11px 18px}
+.row.sel{background:#EAF4F3}
+.t{font-weight:500}.m{color:#5B6675;font-size:13px}
+.det{width:360px;flex:none;padding:20px;display:flex;flex-direction:column;gap:16px}
+.log{display:flex;flex-direction:column;gap:12px;font-size:13px}
+.ev{display:flex;gap:12px}.ev time{width:76px;flex:none;color:#5B6675}
+.shot{border:1px solid #C5CCD6;border-radius:6px;background:#F7F8FA;padding:14px;display:flex;flex-direction:column;gap:8px;height:190px}
+.shot i{display:block;height:9px;border-radius:3px;background:#DADFE7}
+.shot .ok{align-self:flex-start;margin-top:10px}
+.fl{display:flex;gap:10px}.fl .btn.on{background:#14181F;color:#fff;border-color:#14181F}
+</style>
+</helmet>
+<div class="app">
+  <div class="side">
+    <div class="brand">Job Sarthi</div>
+    <div class="nav">Shortlist</div>
+    <div class="nav on">Applications</div>
+    <div class="nav">Job Sources</div>
+    <div class="nav">Rules</div>
+    <div class="nav">Saved Answers</div>
+    <div class="nav">Resume &amp; Profile</div>
+    <div class="nav">Settings</div>
+    <div class="foot">Next run<br>Wed, 18 Nov, 9:00 AM IST<br>Mode: Approval</div>
+  </div>
+  <div class="main">
+    <div><h1>Applications</h1><div class="sub">Every application keeps a log and a screenshot.</div></div>
+    <div class="fl"><button class="btn on">All (6)</button><button class="btn">Needs you (3)</button><button class="btn">Submitted (1)</button><button class="btn">Failed (1)</button></div>
+    <div class="cols">
+      <div class="card list">
+        <div class="row h"><div>Role</div><div>Status</div><div>Updated</div></div>
+        <div class="row"><div><div class="t">Senior .NET Engineer</div><div class="m">Stripe &middot; Greenhouse</div></div><div><span class="b wait">Awaiting approval</span></div><div class="m">Today 9:10 AM</div></div>
+        <div class="row"><div><div class="t">Backend Developer (C#)</div><div class="m">Netflix &middot; Lever</div></div><div><span class="b wait">Awaiting approval</span></div><div class="m">Today 9:14 AM</div></div>
+        <div class="row"><div><div class="t">Staff Engineer, Payments</div><div class="m">Shopify &middot; Greenhouse</div></div><div><span class="b pause">Needs your answer</span></div><div class="m">Today 9:21 AM</div></div>
+        <div class="row sel"><div><div class="t">Platform Engineer</div><div class="m">Airbnb &middot; Greenhouse</div></div><div><span class="b ok">Submitted</span></div><div class="m">16 Nov, 3:42 PM</div></div>
+        <div class="row"><div><div class="t">Backend Engineer</div><div class="m">Cloudflare &middot; Ashby</div></div><div><span class="b bad">Failed</span></div><div class="m">16 Nov, 3:10 PM</div></div>
+        <div class="row"><div><div class="t">Lead .NET Developer</div><div class="m">Infotech Pvt Ltd &middot; Naukri</div></div><div><span class="b man">Manual apply</span></div><div class="m">Today 9:01 AM</div></div>
+      </div>
+      <div class="card det">
+        <div><h2>Platform Engineer, Airbnb</h2><div class="sub">Submitted 16 Nov 2026, 3:42 PM IST</div></div>
+        <div class="log">
+          <div class="ev"><time>3:38 PM</time><span>Tailored resume and cover letter (rule-based)</span></div>
+          <div class="ev"><time>3:40 PM</time><span>You approved the application</span></div>
+          <div class="ev"><time>3:41 PM</time><span>Filled 14 fields, uploaded resume</span></div>
+          <div class="ev"><time>3:42 PM</time><span>Submitted. Confirmation page detected</span></div>
+        </div>
+        <div class="shot"><i style="width:55%"></i><i style="width:90%"></i><i style="width:80%"></i><span class="b ok">Application received</span></div>
+        <div class="sub" style="margin:0">Screenshot saved 16 Nov, 3:42 PM IST</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

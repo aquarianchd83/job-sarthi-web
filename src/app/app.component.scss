@@ -1,0 +1,7 @@
+.shell { display: flex; min-height: 100vh; }
+.side { width: 216px; flex: none; background: #14181f; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
+.brand { font: 600 19px 'Space Grotesk', sans-serif; color: #fff; padding: 4px 10px 20px; }
+.nav { padding: 9px 10px; border-radius: 6px; font-size: 14px; color: #c9d1dc; text-decoration: none; }
+.nav.on { background: #0f6e6e; color: #fff; }
+.main { flex: 1; min-width: 0; padding: 28px 32px; }
+@media (max-width: 760px) { .shell { flex-direction: column; } .side { width: auto; flex-direction: row; flex-wrap: wrap; } .brand { width: 100%; padding-bottom: 8px; } }
