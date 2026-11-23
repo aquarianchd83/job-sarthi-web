@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { JobSource, SourceRunResult } from '../../core/models/job-source.model';
+import { CompanySuggestion, JobSource, SourceRunResult } from '../../core/models/job-source.model';
 import { SourcesService } from '../../core/services/sources.service';
 import { IstDatePipe } from '../../shared/pipes/ist-date.pipe';
 
@@ -19,7 +19,35 @@ export class JobSourcesComponent implements OnInit {
   running = signal<string | null>(null); // 'all' or a source key
   lastResults = signal<SourceRunResult[]>([]);
 
-  ngOnInit() { this.load(); }
+  suggestions = signal<CompanySuggestion[]>([]);
+  autoAdd = signal(false);
+  scanning = signal(false);
+  scanNote = signal('');
+
+  ngOnInit() { this.load(); this.loadSuggestions(); }
+
+  loadSuggestions() {
+    this.api.suggestions().subscribe({ next: r => { this.suggestions.set(r.items); this.autoAdd.set(r.autoAdd); }, error: () => {} });
+  }
+  scan() {
+    this.scanning.set(true);
+    this.api.scanSuggestions().subscribe({
+      next: r => {
+        this.scanning.set(false);
+        this.scanNote.set(`Scanned ${r.jobsScanned} jobs: ${r.newSuggestions} new companies` + (r.autoAdded ? `, ${r.autoAdded} added` : '') + '.');
+        this.load(); this.loadSuggestions();
+      },
+      error: () => { this.scanning.set(false); this.error.set('Could not scan the jobs.'); },
+    });
+  }
+  accept(s: CompanySuggestion) { this.api.acceptSuggestion(s.id).subscribe(() => { this.load(); this.loadSuggestions(); }); }
+  acceptAll() { this.api.acceptAllSuggestions().subscribe(() => { this.load(); this.loadSuggestions(); }); }
+  dismiss(s: CompanySuggestion) { this.api.dismissSuggestion(s.id).subscribe(() => this.loadSuggestions()); }
+  toggleAutoAdd() {
+    const v = !this.autoAdd();
+    this.api.setAutoAdd(v).subscribe(() => this.autoAdd.set(v));
+  }
+  sourceName(key: string) { return this.sources().find(s => s.key === key)?.displayName ?? key; }
 
   load() {
     this.api.getAll().subscribe({

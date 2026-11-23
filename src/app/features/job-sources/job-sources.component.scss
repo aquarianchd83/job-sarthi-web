@@ -11,3 +11,13 @@
 .chip button { border: 0; background: none; color: #5b6675; font-size: 14px; cursor: pointer; padding: 0 2px; }
 .add { display: flex; gap: 6px; }
 .add input { width: 150px; padding: 6px 10px; font-size: 13px; }
+
+.sug { margin-top: 24px; }
+.sh { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; padding: 16px 18px; flex-wrap: wrap; }
+.sh h2 { margin: 0 0 4px; font-size: 16px; }
+.sh .m { max-width: 560px; }
+.sa { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.srow { display: grid; grid-template-columns: 110px 1fr 220px 200px; gap: 12px; align-items: center; padding: 12px 18px; border-top: 1px solid #e8ebf0; font-size: 14px; }
+.srow .acts { display: flex; gap: 8px; justify-content: flex-end; }
+.note1 { display: block; padding: 12px 18px; border-top: 1px solid #e8ebf0; }
+.srow > .b { justify-self: start; }
