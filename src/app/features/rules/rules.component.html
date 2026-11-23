@@ -22,23 +22,67 @@
     </div>
 
     <div class="card">
-      <h2>Where</h2>
-      <label class="f">Locations
-        <app-chip-input label="Locations" placeholder="Add a city or 'Remote'" [values]="r.locations" (valuesChange)="patch({ locations: $event })" />
-      </label>
-      <p class="hint">Add "Remote" to accept remote jobs open to anywhere. Add "India" to accept "Remote, India".</p>
-      <div class="f">Work mode
-        <div class="seg" role="group" aria-label="Work mode">
-          @for (m of modes; track m.label) {
-            <button type="button" [class.on]="r.workMode === m.value" (click)="patch({ workMode: m.value })">{{ m.label }}</button>
+      <h2>Where and how you will work</h2>
+      <p class="hint first">Pick the work modes you accept in each place. For example Pune: Hybrid and Onsite, and everywhere else: Remote.</p>
+
+      @for (p of r.locationPrefs; track $index; let pi = $index) {
+        <div class="place">
+          <div class="pname">{{ p.place }}</div>
+          <div class="modes" role="group" [attr.aria-label]="'Work modes in ' + p.place">
+            @for (m of allModes; track m) {
+              <button type="button" class="mode" [class.on]="p.modes.includes(m)" [attr.aria-pressed]="p.modes.includes(m)" (click)="togglePlaceMode(pi, m)">{{ m }}</button>
+            }
+          </div>
+          <button type="button" class="x" (click)="removePlace(pi)" [attr.aria-label]="'Remove ' + p.place">&times;</button>
+        </div>
+        @if (p.modes.length === 0) { <p class="warnline">No mode ticked, so every job in {{ p.place }} is dropped.</p> }
+      }
+
+      <div class="addplace">
+        <input #pl type="text" placeholder="Add a city or country, e.g. Pune or India" aria-label="Add a place" (keydown.enter)="addPlace(pl); $event.preventDefault()" />
+        <button type="button" class="btn" (click)="addPlace(pl)">Add place</button>
+      </div>
+
+      <div class="place else">
+        <div class="pname">Everywhere else<span class="m"> including remote jobs open to anywhere</span></div>
+        <div class="modes" role="group" aria-label="Work modes everywhere else">
+          @for (m of allModes; track m) {
+            <button type="button" class="mode" [class.on]="r.otherModes.includes(m)" [attr.aria-pressed]="r.otherModes.includes(m)" (click)="toggleOther(m)">{{ m }}</button>
           }
         </div>
       </div>
+      @if (r.otherModes.length === 0) { <p class="warnline">No mode ticked, so every job outside your listed places is dropped.</p> }
+      <p class="hint">A job counts as being in a place when its location text contains that name, so "India" matches "Remote, India". Jobs restricted to a region you did not list, like "USA Only", are dropped.</p>
+    </div>
+
+    <div class="card">
+      <h2>Your skills</h2>
+      <label class="f">Jobs must mention at least this many of your skills
+        <input type="number" min="0" max="10" [ngModel]="r.minSkillMatches" (ngModelChange)="patch({ minSkillMatches: $event })" />
+      </label>
+      <p class="hint">Uses the skills saved in Resume &amp; Profile. Common ones like HTML, CSS and Git do not count. Set 0 to turn this off. Jobs that match more of your skills score higher.</p>
+    </div>
+
+    <div class="card">
+      <h2>Fit score range</h2>
+      <div class="g">
+        <label class="f">Lowest fit to shortlist<input type="number" min="0" max="100" [ngModel]="r.minFitScore" (ngModelChange)="patch({ minFitScore: $event })" /></label>
+        <label class="f">Highest fit to shortlist<input type="number" min="0" max="100" [ngModel]="r.maxFitScore" (ngModelChange)="patch({ maxFitScore: $event })" /></label>
+      </div>
+      <p class="hint">Only jobs scoring inside this range (0 to 100, both ends included) reach the Shortlist and the daily run. For example 60 to 100 hides weak matches. Jobs outside the range keep their score and the reason.</p>
     </div>
 
     <div class="card">
       <h2>Keywords that raise the score</h2>
       <app-chip-input label="Keywords" placeholder="Add a keyword" [values]="r.keywords" (valuesChange)="patch({ keywords: $event })" />
+      <div class="copyrow">
+        <button type="button" class="btn" (click)="copySkills()" [disabled]="profileSkills().length === 0">Copy my skills here</button>
+        <span class="hint">
+          @if (copied()) { {{ copied() }} }
+          @else if (profileSkills().length === 0) { No skills yet. Upload your resume in Resume &amp; Profile first. }
+          @else { Adds the {{ profileSkills().length }} skills from your profile, except very common ones like HTML, CSS and Git. }
+        </span>
+      </div>
     </div>
 
     <div class="card">

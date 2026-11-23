@@ -6,6 +6,11 @@
     }
   </div>
   <div class="fl">
+    <span class="fit">Fit
+      <input type="number" min="0" max="100" aria-label="Lowest fit" [value]="fitMin()" (input)="setFit('min', $any($event.target).value)" />
+      to
+      <input type="number" min="0" max="100" aria-label="Highest fit" [value]="fitMax()" (input)="setFit('max', $any($event.target).value)" />
+    </span>
     <button class="btn" [class.on]="filter() === 'all'" (click)="filter.set('all')">All</button>
     <button class="btn" [class.on]="filter() === 'auto'" (click)="filter.set('auto')">Auto-apply</button>
     <button class="btn" [class.on]="filter() === 'manual'" (click)="filter.set('manual')">Manual</button>

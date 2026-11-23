@@ -1,0 +1,80 @@
+<div class="top">
+  <div>
+    <h1>Skill Gap</h1>
+    <div class="sub">Your resume skills compared with the skills the fetched job postings ask for.</div>
+  </div>
+  <div class="fl">
+    <button class="btn" [class.on]="scope() === 'field'" (click)="setScope('field')">Jobs in my field</button>
+    <button class="btn" [class.on]="scope() === 'all'" (click)="setScope('all')">All fetched jobs</button>
+    <input type="text" class="tf" aria-label="Only jobs with this in the title" placeholder="Title contains, e.g. .NET" [(ngModel)]="title" (keydown.enter)="load()" />
+    <button class="btn" (click)="load()">Apply</button>
+  </div>
+</div>
+@if (error()) { <p class="err">{{ error() }}</p> }
+
+@if (loading()) { <p class="m">Analysing...</p> }
+@if (!loading() && data(); as d) {
+  @if (d.note) { <div class="note">{{ d.note }}</div> }
+
+  @if (d.jobsAnalysed > 0) {
+    <div class="stats">
+      <div class="card stat">
+        <div class="big">{{ coverage(d) }}%</div>
+        <div>You have <b>{{ d.topHave }} of the {{ d.topN }}</b> most requested skills.</div>
+        <div class="meter" role="img" [attr.aria-label]="coverage(d) + ' percent coverage'"><i [style.width.%]="coverage(d)"></i></div>
+      </div>
+      <div class="card stat">
+        <div class="big">{{ d.jobsAnalysed }}</div>
+        <div>jobs compared{{ scope() === 'field' ? ' (ones that mention at least one of your skills)' : '' }}, out of {{ d.totalJobs }} fetched jobs with a description.</div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div class="card">
+        <h2>Skills worth adding</h2>
+        @if (d.toAdd.length === 0) {
+          <p class="m">Nothing stands out. You already have the skills these jobs ask for most.</p>
+        } @else {
+          <p class="m">Asked for by many jobs, but not in your profile. Most requested first.</p>
+          @for (s of d.toAdd; track s.name) {
+            <div class="row">
+              <div class="nm">{{ s.name }}@if (s.common) { <span class="b fetch">common</span> }</div>
+              <div class="bar"><i [style.width.%]="width(d, s.percent)"></i></div>
+              <div class="pc">{{ s.percent }}% <span class="m">({{ s.jobs }} jobs)</span></div>
+            </div>
+          }
+        }
+        <p class="hint">Only add a skill to your resume if you really have it. Job Sarthi never adds skills for you. If you do have one of these, add it in <a routerLink="/profile">Resume &amp; Profile</a> and it counts here, in your fit scores and in tailoring.</p>
+      </div>
+
+      <div class="card">
+        <h2>Your skills employers rarely ask for</h2>
+        @if (d.rarelyAsked.length === 0) {
+          <p class="m">All your skills are asked for fairly often.</p>
+        } @else {
+          <p class="m">Asked for by under 3% of these jobs. Keep them if they are your strength, but put the in-demand skills first on your resume.</p>
+          <div class="chips">
+            @for (s of d.rarelyAsked; track s.name) { <span class="chip">{{ s.name }} <span class="m">{{ s.jobs }}</span></span> }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="card flush list">
+      <div class="lh"><h2>Most requested skills</h2><span class="m">Share of the {{ d.jobsAnalysed }} jobs that mention each skill</span></div>
+      @for (s of rows(d); track s.name) {
+        <div class="row pad">
+          <div class="nm">{{ s.name }}@if (s.common) { <span class="b fetch">common</span> }</div>
+          <div class="bar"><i [style.width.%]="width(d, s.percent)" [class.mine]="s.have"></i></div>
+          <div class="pc">{{ s.percent }}% <span class="m">({{ s.jobs }})</span></div>
+          <div><span class="b" [class.auto]="s.have" [class.alert]="!s.have">{{ s.have ? 'You have it' : 'Missing' }}</span></div>
+        </div>
+      }
+      @if (d.skills.length > 20) {
+        <div class="more"><button class="btn" (click)="showAll.set(!showAll())">{{ showAll() ? 'Show fewer' : 'Show all ' + d.skills.length }}</button></div>
+      }
+    </div>
+
+    <p class="hint">"Market demand" here means the {{ d.totalJobs }} jobs this app fetched from the sources you switched on, matched against about 70 well-known tech skills. It is not the whole job market. If a skill you expect is missing from the list, add companies that hire for it in Job Sources and fetch again.</p>
+  }
+}

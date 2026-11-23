@@ -14,6 +14,6 @@ Development API address: `src/environments/environment.ts`. The production build
 
 ## Screens
 
-Shortlist, Applications, Job Sources, Rules, Saved Answers, Resume & Profile, Settings.
+Shortlist, Applications, Job Sources, Rules, Saved Answers, Resume & Profile, Skill Gap, Settings.
 All dates arrive from the API as UTC and are shown in IST through the `istDate` pipe.
 Screen designs: `docs/design-mockups/`. Layout: `docs/STRUCTURE.md`.

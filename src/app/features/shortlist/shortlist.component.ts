@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Job, ShortlistStats } from '../../core/models/job.model';
 import { ShortlistService } from '../../core/services/shortlist.service';
+import { RulesService } from '../../core/services/rules.service';
 import { ApplicationsService } from '../../core/services/applications.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IstDatePipe } from '../../shared/pipes/ist-date.pipe';
@@ -23,6 +24,14 @@ export class ShortlistComponent implements OnInit {
   jobs = signal<Job[]>([]);
   stats = signal<ShortlistStats | null>(null);
   filter = signal<'all' | 'auto' | 'manual'>('all');
+  // Quick view filter on top of the saved rule. Not saved: change the range in Rules to make it permanent.
+  fitMin = signal(0);
+  fitMax = signal(100);
+  private rulesApi = inject(RulesService);
+  setFit(which: 'min' | 'max', raw: string) {
+    const n = Math.min(100, Math.max(0, Number(raw) || (which === 'min' ? 0 : 100)));
+    (which === 'min' ? this.fitMin : this.fitMax).set(n);
+  }
   error = signal('');
   busy = signal(false);
   tailoring = signal<Job | null>(null);
@@ -43,7 +52,10 @@ export class ShortlistComponent implements OnInit {
   }
   private flash(m: string) { this.toast.set(m); setTimeout(() => this.toast.set(''), 5000); }
 
-  ngOnInit() { this.load(); }
+  ngOnInit() {
+    this.load();
+    this.rulesApi.get().subscribe({ next: r => { this.fitMin.set(r.minFitScore); this.fitMax.set(r.maxFitScore); }, error: () => {} });
+  }
 
   load() {
     this.api.getShortlist(200).subscribe({
@@ -60,7 +72,8 @@ export class ShortlistComponent implements OnInit {
 
   visible() {
     const f = this.filter();
-    return this.jobs().filter(j => f === 'all' || (f === 'auto' ? j.canAutoApply : !j.canAutoApply));
+    return this.jobs().filter(j => (f === 'all' || (f === 'auto' ? j.canAutoApply : !j.canAutoApply))
+      && j.fitScore >= this.fitMin() && j.fitScore <= this.fitMax());
   }
   label(key: string) { return LABELS[key] ?? key; }
   badge(j: Job) { return j.canAutoApply ? 'auto' : j.sourceKey === 'naukri' || j.sourceKey === 'linkedin' ? 'alert' : 'fetch'; }

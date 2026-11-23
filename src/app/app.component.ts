@@ -17,6 +17,7 @@ export class AppComponent {
     { path: '/rules', label: 'Rules' },
     { path: '/saved-answers', label: 'Saved Answers' },
     { path: '/profile', label: 'Resume & Profile' },
+    { path: '/skills', label: 'Skill Gap' },
     { path: '/settings', label: 'Settings' },
   ];
 }
