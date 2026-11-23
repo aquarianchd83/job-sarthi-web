@@ -1,7 +1,36 @@
 .shell { display: flex; min-height: 100vh; }
-.side { width: 216px; flex: none; background: #14181f; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
-.brand { font: 600 19px 'Space Grotesk', sans-serif; color: #fff; padding: 4px 10px 20px; }
-.nav { padding: 9px 10px; border-radius: 6px; font-size: 14px; color: #c9d1dc; text-decoration: none; }
+
+.side {
+  width: 216px; flex: none; background: #14181f; padding: 16px 12px;
+  display: flex; flex-direction: column; gap: 4px;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  transition: width .18s ease, padding .18s ease;
+}
+.side-head { display: flex; align-items: center; gap: 8px; padding: 0 0 16px; }
+.brand { font: 600 19px 'Space Grotesk', sans-serif; color: #fff; white-space: nowrap; }
+.links { display: flex; flex-direction: column; gap: 4px; }
+.nav { padding: 9px 10px; border-radius: 6px; font-size: 14px; color: #c9d1dc; text-decoration: none; white-space: nowrap; }
+.nav:hover { background: #1f2530; color: #fff; }
 .nav.on { background: #0f6e6e; color: #fff; }
+
+.burger {
+  width: 36px; height: 36px; flex: none; border: 0; border-radius: 6px; background: transparent;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; cursor: pointer;
+}
+.burger span { display: block; width: 18px; height: 2px; border-radius: 1px; background: #c9d1dc; }
+.burger:hover { background: #1f2530; }
+.burger:hover span { background: #fff; }
+.burger:focus-visible { outline: 2px solid #3fb8b8; outline-offset: 1px; }
+
 .main { flex: 1; min-width: 0; padding: 28px 32px; }
-@media (max-width: 760px) { .shell { flex-direction: column; } .side { width: auto; flex-direction: row; flex-wrap: wrap; } .brand { width: 100%; padding-bottom: 8px; } }
+
+/* Collapsed: a thin rail that keeps only the burger. */
+.collapsed .side { width: 60px; padding: 16px 12px; overflow: hidden; }
+.collapsed .brand, .collapsed .links { display: none; }
+
+/* Small screens: the open sidebar floats over the page instead of squeezing it. */
+.narrow .side { position: fixed; left: 0; top: 0; z-index: 30; }
+.narrow .main { margin-left: 60px; padding: 20px 16px; }
+.scrim { position: fixed; inset: 0; z-index: 20; background: rgba(20, 24, 31, .45); }
+
+@media (prefers-reduced-motion: reduce) { .side { transition: none; } }
