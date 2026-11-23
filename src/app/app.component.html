@@ -23,5 +23,5 @@
   @if (narrow() && !collapsed()) {
     <div class="scrim" (click)="toggleSidebar()" aria-hidden="true"></div>
   }
-  <main class="main"><app-alerts-strip /><router-outlet /></main>
+  <main class="main" [inert]="narrow() && !collapsed()"><app-alerts-strip /><router-outlet /></main>
 </div>
