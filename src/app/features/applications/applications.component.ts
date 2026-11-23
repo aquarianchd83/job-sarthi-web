@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationDetail, ApplicationListItem, ApplicationStatus } from '../../core/models/application.model';
+import { ApplicationDetail, ApplicationListItem, ApplicationStatus, PendingQuestion } from '../../core/models/application.model';
 import { ApplicationsService } from '../../core/services/applications.service';
 import { IstDatePipe } from '../../shared/pipes/ist-date.pipe';
 
@@ -31,7 +31,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   selected = signal<ApplicationDetail | null>(null);
   filter = signal<'all' | 'needs' | 'submitted' | 'failed'>('all');
   error = signal('');
-  answers: Record<number, { text: string; save: boolean }> = {};
+  answers: Record<number, { text: string; save: boolean; picked: string[] }> = {};
   private timer?: ReturnType<typeof setInterval>;
 
   ngOnInit() {
@@ -66,7 +66,27 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   label(s: ApplicationStatus) { return LABEL[s]; }
   cls(s: ApplicationStatus) { return CLASS[s]; }
   shot(d: ApplicationDetail) { return this.api.screenshotUrl(d.id, d.updatedAtUtc); }
-  answerOf(id: number) { return (this.answers[id] ??= { text: '', save: true }); }
+  answerOf(id: number) { return (this.answers[id] ??= { text: '', save: true, picked: [] }); }
+  /** Which control to show. A long single-choice list reads better as a dropdown than as radios. */
+  control(q: PendingQuestion): 'text' | 'textarea' | 'select' | 'radio' | 'multi' {
+    if (q.input === 'yesno') return 'radio';
+    if ((q.input === 'select' || q.input === 'radio' || q.input === 'multi') && !q.options?.length) return 'text';
+    if (q.input === 'radio' && q.options.length > 8) return 'select';
+    return q.input;
+  }
+  choices(q: PendingQuestion) { return q.input === 'yesno' ? ['Yes', 'No'] : q.options; }
+  isPicked(qid: number, o: string) { return this.answerOf(qid).picked.includes(o); }
+  togglePick(q: PendingQuestion, o: string, on: boolean) {
+    const a = this.answerOf(q.id);
+    const set = new Set(a.picked);
+    if (on) set.add(o); else set.delete(o);
+    a.picked = q.options.filter(x => set.has(x)); // keep the form's order
+  }
+  /** The answer as sent: several choices are joined with "; ". */
+  answerText(q: PendingQuestion) {
+    const a = this.answerOf(q.id);
+    return this.control(q) === 'multi' ? a.picked.join('; ') : a.text.trim();
+  }
   questions(d: ApplicationDetail) { return d.pending.filter(p => p.kind === 'question'); }
   blockers(d: ApplicationDetail) { return d.pending.filter(p => p.kind !== 'question'); }
 
@@ -96,8 +116,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     if (!text) return;
     navigator.clipboard?.writeText(text).then(() => { this.copied.set(what); setTimeout(() => this.copied.set(''), 2500); }, () => {});
   }
-  submitAnswer(d: ApplicationDetail, qid: number) {
-    const a = this.answerOf(qid);
-    this.act(() => this.api.answer(d.id, qid, a.text, a.save));
+  submitAnswer(d: ApplicationDetail, q: PendingQuestion) {
+    const a = this.answerOf(q.id);
+    this.act(() => this.api.answer(d.id, q.id, this.answerText(q), a.save));
   }
 }

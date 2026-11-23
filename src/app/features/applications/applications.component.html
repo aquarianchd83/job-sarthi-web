@@ -78,11 +78,39 @@
 
       @if (d.status === 'PausedNeedsInput') {
         @for (q of questions(d); track q.id) {
-          <div class="box ask">
+          <div class="box ask" role="group" [attr.aria-label]="q.prompt">
             <b>{{ q.prompt }}</b>
-            <input type="text" [attr.aria-label]="q.prompt" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event" placeholder="Your answer" />
+            @switch (control(q)) {
+              @case ('select') {
+                <select [attr.aria-label]="q.prompt" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event">
+                  <option value="">Choose...</option>
+                  @for (o of choices(q); track o) { <option [value]="o">{{ o }}</option> }
+                </select>
+              }
+              @case ('radio') {
+                <div class="opts">
+                  @for (o of choices(q); track o) {
+                    <label class="chk"><input type="radio" [name]="'q' + q.id" [value]="o" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event" /> {{ o }}</label>
+                  }
+                </div>
+              }
+              @case ('multi') {
+                <div class="m">Select all that apply ({{ answerOf(q.id).picked.length }} selected)</div>
+                <div class="opts multi">
+                  @for (o of choices(q); track o) {
+                    <label class="chk"><input type="checkbox" [checked]="isPicked(q.id, o)" (change)="togglePick(q, o, $any($event.target).checked)" /> {{ o }}</label>
+                  }
+                </div>
+              }
+              @case ('textarea') {
+                <textarea rows="4" [attr.aria-label]="q.prompt" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event" placeholder="Your answer"></textarea>
+              }
+              @default {
+                <input type="text" [attr.aria-label]="q.prompt" [ngModel]="answerOf(q.id).text" (ngModelChange)="answerOf(q.id).text = $event" placeholder="Your answer" />
+              }
+            }
             <label class="chk"><input type="checkbox" [ngModel]="answerOf(q.id).save" (ngModelChange)="answerOf(q.id).save = $event" /> Save for next time</label>
-            <div class="acts"><button class="btn p" (click)="submitAnswer(d, q.id)" [disabled]="!answerOf(q.id).text.trim()">Answer and resume</button></div>
+            <div class="acts"><button class="btn p" (click)="submitAnswer(d, q)" [disabled]="!answerText(q)">Answer and resume</button></div>
           </div>
         }
         @for (q of blockers(d); track q.id) {

@@ -17,7 +17,16 @@ export interface ApplicationListItem {
 }
 
 export interface LogLine { atUtc: string; message: string; }
-export interface PendingQuestion { id: number; kind: 'question' | 'captcha' | 'otp'; prompt: string; }
+/** How a question is answered: free text, one choice (select / radio), several choices (multi) or a yes/no box. */
+export type QuestionInput = 'text' | 'textarea' | 'select' | 'radio' | 'multi' | 'yesno';
+export interface PendingQuestion {
+  id: number;
+  kind: 'question' | 'captcha' | 'otp';
+  prompt: string;
+  input: QuestionInput;
+  /** The form's own choices, for select / radio / multi. */
+  options: string[];
+}
 
 export interface ApplicationDetail extends ApplicationListItem {
   submittedAtUtc: string | null;
