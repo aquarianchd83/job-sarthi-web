@@ -1,9 +1,27 @@
-<div class="shell">
-  <nav class="side">
-    <div class="brand">Job Sarthi</div>
-    @for (n of nav; track n.path) {
-      <a [routerLink]="n.path" routerLinkActive="on" class="nav">{{ n.label }}</a>
-    }
+<div class="shell" [class.collapsed]="collapsed()" [class.narrow]="narrow()">
+  <nav class="side" id="app-sidebar" aria-label="Main">
+    <div class="side-head">
+      <button
+        type="button"
+        class="burger"
+        (click)="toggleSidebar()"
+        [attr.aria-expanded]="!collapsed()"
+        aria-controls="app-sidebar-links"
+        [attr.aria-label]="collapsed() ? 'Show menu' : 'Hide menu'"
+        [title]="collapsed() ? 'Show menu' : 'Hide menu'"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brand">Job Sarthi</div>
+    </div>
+    <div class="links" id="app-sidebar-links">
+      @for (n of nav; track n.path) {
+        <a [routerLink]="n.path" routerLinkActive="on" class="nav" (click)="onNavClick()">{{ n.label }}</a>
+      }
+    </div>
   </nav>
-  <main class="main"><app-alerts-strip /><router-outlet /></main>
+  @if (narrow() && !collapsed()) {
+    <div class="scrim" (click)="toggleSidebar()" aria-hidden="true"></div>
+  }
+  <main class="main" [inert]="narrow() && !collapsed()"><app-alerts-strip /><router-outlet /></main>
 </div>
