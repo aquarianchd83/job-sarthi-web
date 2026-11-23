@@ -127,6 +127,9 @@ export class ShortlistComponent implements OnInit {
     }
   }
   catClass(j: Job) { return 'b cat-' + (j.applyCategory ?? 'none').toLowerCase(); }
+  /** Fit bar colour: strong, fair or weak match. */
+  fitClass(score: number) { return 'sc ' + (score >= 80 ? 'hi' : score >= 60 ? 'mid' : 'lo'); }
+  draftTip(j: Job) { return j.applyCategory === 'Email' ? 'Prepare email draft (you send it)' : 'Prepare draft (you press Submit)'; }
   link(j: Job) { return j.applyUrl || j.url; }
   label(key: string) { return LABELS[key] ?? key; }
   badge(j: Job) { return j.canAutoApply ? 'auto' : j.sourceKey === 'naukri' || j.sourceKey === 'linkedin' ? 'alert' : 'fetch'; }

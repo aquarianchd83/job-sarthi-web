@@ -30,32 +30,47 @@
 </div>
 
 <ng-template #head>
-  <div class="row h"><div>Fit</div><div>Role</div><div>Apply type</div><div>Source</div><div>Location</div><div>Fetched (IST)</div><div>Actions</div></div>
+  <div class="row h">
+    <div>Fit</div><div>Role</div><div>Source</div><div>Location</div><div>Fetched (IST)</div><div class="ar">Actions</div>
+  </div>
 </ng-template>
 
 <ng-template #jobRow let-j>
   <div class="row">
-    <div class="sc" [title]="j.scoreNotes ?? ''">{{ j.fitScore }}<span class="bar"><i [style.width.%]="j.fitScore"></i></span></div>
-    <div>
-      <div class="t">{{ j.title }}</div>
-      <div class="m">{{ j.company || 'Company in the link' }}</div>
-      @if (j.scoreNotes) { <div class="notes">{{ j.scoreNotes }}</div> }
+    <div [class]="fitClass(j.fitScore)" [title]="j.scoreNotes ?? ''">
+      <span class="bar" aria-hidden="true"><i [style.width.%]="j.fitScore"></i></span>
+      <span class="num" [attr.aria-label]="'Fit ' + j.fitScore + ' of 100'">{{ j.fitScore }}</span>
     </div>
-    <div>
-      <span [class]="catClass(j)" [title]="j.categoryReason ?? ''">{{ catLabel(j) }}</span>
-      @if (j.applyEmail) { <div class="m em">{{ j.applyEmail }}</div> }
+    <div class="role">
+      <div class="t" [title]="j.title">{{ j.title }}</div>
+      <div class="co">
+        <span>{{ j.company || 'Company in the link' }}</span>
+        @if (view() === 'list') { <span [class]="catClass(j)" [title]="j.categoryReason ?? ''">{{ catLabel(j) }}</span> }
+      </div>
+      @if (j.applyEmail) { <div class="notes em">{{ j.applyEmail }}</div> }
+      @if (j.scoreNotes) { <div class="notes" [title]="j.scoreNotes">{{ j.scoreNotes }}</div> }
     </div>
     <div><span [class]="'b ' + badge(j)">{{ label(j.sourceKey) }}</span></div>
-    <div class="m">{{ j.location || '-' }} &middot; {{ j.workMode }}</div>
-    <div class="m">{{ j.fetchedAtUtc | istDate }}</div>
+    <div class="m loc" [title]="(j.location || '-') + ' · ' + j.workMode">{{ j.location || '-' }} &middot; {{ j.workMode }}</div>
+    <div class="m when">{{ j.fetchedAtUtc | istDate }}</div>
     <div class="acts">
-      <button class="btn" (click)="tailoring.set(j)">Tailor</button>
+      <button type="button" class="ib" data-tip="Tailor resume" aria-label="Tailor resume" (click)="tailoring.set(j)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </button>
       @if (j.canAutoApply) {
-        <button class="btn p" (click)="apply(j)">Apply</button>
+        <button type="button" class="ib p" data-tip="Apply now" aria-label="Apply now" (click)="apply(j)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </button>
       } @else {
-        <button class="btn p" (click)="draft(j)" [title]="j.applyCategory === 'Email' ? 'Cover letter and email ready, you send it' : 'Opens the form pre-filled, you press Submit'">Prepare draft</button>
-        <a class="btn" [href]="link(j)" target="_blank" rel="noopener noreferrer">Open link</a>
-        <button class="btn" (click)="markApplied(j)">Mark applied</button>
+        <button type="button" class="ib p" [attr.data-tip]="draftTip(j)" [attr.aria-label]="draftTip(j)" (click)="draft(j)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+        </button>
+        <a class="ib" [href]="link(j)" target="_blank" rel="noopener noreferrer" data-tip="Open link" aria-label="Open job link in a new tab">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        </a>
+        <button type="button" class="ib" data-tip="Mark applied" aria-label="Mark applied" (click)="markApplied(j)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+        </button>
       }
     </div>
   </div>
