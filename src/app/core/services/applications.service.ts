@@ -12,6 +12,8 @@ export class ApplicationsService {
   get(id: number) { return this.http.get<ApplicationDetail>(`${this.base}/${id}`); }
   /** Tailors if needed, then fills the form in the background. In approval mode it stops before submitting. */
   apply(jobId: number) { return this.http.post<ApplicationDetail>(`${this.base}/apply/${jobId}`, {}); }
+  /** Email and Manual apply: tailor and get a draft ready. Never submits. */
+  draft(jobId: number) { return this.http.post<ApplicationDetail>(`${this.base}/draft/${jobId}`, {}); }
   approve(id: number) { return this.http.post<ApplicationDetail>(`${this.base}/${id}/approve`, {}); }
   retry(id: number) { return this.http.post<ApplicationDetail>(`${this.base}/${id}/retry`, {}); }
   cancel(id: number) { return this.http.post<ApplicationDetail>(`${this.base}/${id}/reject`, {}); }

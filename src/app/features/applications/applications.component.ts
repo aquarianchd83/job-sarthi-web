@@ -7,11 +7,15 @@ import { IstDatePipe } from '../../shared/pipes/ist-date.pipe';
 
 const LABEL: Record<ApplicationStatus, string> = {
   Shortlisted: 'Shortlisted', AwaitingApproval: 'Awaiting approval', Tailoring: 'Tailoring', Applying: 'Applying...',
-  PausedNeedsInput: 'Needs you', Submitted: 'Submitted', Failed: 'Failed', ManualApply: 'Manual apply', Cancelled: 'Cancelled',
+  PausedNeedsInput: 'Needs you', Submitted: 'Submitted', Failed: 'Failed', ManualApply: 'Manual apply', Cancelled: 'Cancelled', DraftReady: 'Draft ready',
 };
+// Waiting for you: approve, answer, or send/submit a prepared draft.
+const NEEDS: ApplicationStatus[] = ['AwaitingApproval', 'PausedNeedsInput', 'DraftReady'];
+const CATEGORY: Record<string, string> = { Api: 'API apply', Email: 'Email apply', Manual: 'Manual apply' };
+
 const CLASS: Record<ApplicationStatus, string> = {
   Shortlisted: 'man', AwaitingApproval: 'wait', Tailoring: 'pause', Applying: 'pause', PausedNeedsInput: 'ask',
-  Submitted: 'ok', Failed: 'bad', ManualApply: 'man', Cancelled: 'man',
+  Submitted: 'ok', Failed: 'bad', ManualApply: 'man', Cancelled: 'man', DraftReady: 'wait',
 };
 
 @Component({
@@ -51,11 +55,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   visible() {
     const f = this.filter();
     return this.items().filter(i =>
-      f === 'all' || (f === 'needs' && ['AwaitingApproval', 'PausedNeedsInput'].includes(i.status))
+      f === 'all' || (f === 'needs' && NEEDS.includes(i.status))
       || (f === 'submitted' && i.status === 'Submitted') || (f === 'failed' && i.status === 'Failed'));
   }
   count(f: 'needs' | 'submitted' | 'failed') {
-    return this.items().filter(i => f === 'needs' ? ['AwaitingApproval', 'PausedNeedsInput'].includes(i.status)
+    return this.items().filter(i => f === 'needs' ? NEEDS.includes(i.status)
       : f === 'submitted' ? i.status === 'Submitted' : i.status === 'Failed').length;
   }
 
@@ -79,6 +83,19 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   retry(d: ApplicationDetail) { this.act(() => this.api.retry(d.id)); }
   cancel(d: ApplicationDetail) { this.act(() => this.api.cancel(d.id)); }
   manual(d: ApplicationDetail) { this.act(() => this.api.manual(d.id)); }
+  markApplied(d: ApplicationDetail) { this.act(() => this.api.markApplied(d.jobId)); }
+  category(c: string | null) { return c ? CATEGORY[c] ?? c : ''; }
+  link(d: ApplicationDetail) { return d.applyUrl || d.url; }
+  /** Opens your mail app with the address, subject and cover letter filled in. You attach the resume and send. */
+  mailto(d: ApplicationDetail) {
+    const q = `subject=${encodeURIComponent(d.emailSubject ?? '')}&body=${encodeURIComponent(d.coverLetter ?? '')}`;
+    return `mailto:${encodeURIComponent(d.applyEmail ?? '')}?${q}`;
+  }
+  copied = signal('');
+  copy(text: string | null, what: string) {
+    if (!text) return;
+    navigator.clipboard?.writeText(text).then(() => { this.copied.set(what); setTimeout(() => this.copied.set(''), 2500); }, () => {});
+  }
   submitAnswer(d: ApplicationDetail, qid: number) {
     const a = this.answerOf(qid);
     this.act(() => this.api.answer(d.id, qid, a.text, a.save));

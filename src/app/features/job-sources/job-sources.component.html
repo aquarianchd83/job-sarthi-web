@@ -42,3 +42,35 @@
     </div>
   }
 </div>
+
+<section class="card flush list sug" aria-label="Suggested companies">
+  <div class="sh">
+    <div>
+      <h2>Suggested companies</h2>
+      <div class="m">Greenhouse, Lever and Ashby only search the companies in your list. These boards were found in the apply links of jobs from RemoteOK, We Work Remotely and email alerts.</div>
+    </div>
+    <div class="sa">
+      <button class="tg" [class.on]="autoAdd()" (click)="toggleAutoAdd()" aria-label="Add found companies automatically" [attr.aria-pressed]="autoAdd()"></button>
+      <span class="m">Add automatically in the daily run</span>
+      <button class="btn" (click)="scan()" [disabled]="scanning()">{{ scanning() ? 'Scanning...' : 'Scan jobs now' }}</button>
+      @if (suggestions().length > 1) { <button class="btn p" (click)="acceptAll()">Add all ({{ suggestions().length }})</button> }
+    </div>
+  </div>
+  @if (scanNote()) { <div class="row note1 m" role="status">{{ scanNote() }}</div> }
+  @for (s of suggestions(); track s.id) {
+    <div class="srow">
+      <span [class]="'b auto'">{{ sourceName(s.sourceKey) }}</span>
+      <div>
+        <div class="t">{{ s.slug }}</div>
+        <div class="m">{{ s.exampleCompany || s.slug }}@if (s.exampleTitle) { &middot; e.g. {{ s.exampleTitle }} }</div>
+      </div>
+      <div class="m">{{ s.seenCount }} job{{ s.seenCount === 1 ? '' : 's' }} &middot; seen {{ s.lastSeenUtc | istDate }}</div>
+      <div class="acts">
+        <button class="btn p" (click)="accept(s)">Add</button>
+        <button class="btn" (click)="dismiss(s)">Not interested</button>
+      </div>
+    </div>
+  } @empty {
+    <div class="row note1 m">No new companies yet. They appear after a fetch from RemoteOK, We Work Remotely or email alerts.</div>
+  }
+</section>

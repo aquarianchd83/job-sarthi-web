@@ -1,6 +1,8 @@
+import { ApplyCategory } from './job.model';
+
 export type ApplicationStatus =
   | 'Shortlisted' | 'AwaitingApproval' | 'Tailoring' | 'Applying'
-  | 'PausedNeedsInput' | 'Submitted' | 'Failed' | 'ManualApply' | 'Cancelled';
+  | 'PausedNeedsInput' | 'Submitted' | 'Failed' | 'ManualApply' | 'Cancelled' | 'DraftReady';
 
 export interface ApplicationListItem {
   id: number;
@@ -11,6 +13,7 @@ export interface ApplicationListItem {
   status: ApplicationStatus;
   updatedAtUtc: string;
   url: string;
+  applyCategory: ApplyCategory | null;
 }
 
 export interface LogLine { atUtc: string; message: string; }
@@ -22,6 +25,10 @@ export interface ApplicationDetail extends ApplicationListItem {
   hasScreenshot: boolean;
   log: LogLine[];
   pending: PendingQuestion[];
+  applyUrl: string | null;
+  applyEmail: string | null;
+  /** Set for email apply. */
+  emailSubject: string | null;
 }
 
 export interface SavedAnswer { id: number; question: string; answer: string; }
