@@ -14,12 +14,12 @@
     <div class="row h"><div>Role</div><div>Status</div><div>Updated</div></div>
     @for (i of visible(); track i.id) {
       <button type="button" class="row item" [class.sel]="selected()?.id === i.id" (click)="select(i)">
-        <div><div class="t">{{ i.title }}</div><div class="m">{{ i.company || 'Company in the link' }} &middot; {{ i.sourceKey }}</div></div>
+        <div><div class="t">{{ i.title }}</div><div class="m">{{ i.company || 'Company in the link' }} &middot; {{ i.sourceKey }}@if (i.applyCategory) { &middot; {{ category(i.applyCategory) }} }</div></div>
         <div><span [class]="'b ' + cls(i.status)">{{ label(i.status) }}</span></div>
         <div class="m">{{ i.updatedAtUtc | istDate }}</div>
       </button>
     } @empty {
-      <div class="row empty">No applications yet. Press Apply on a shortlisted Greenhouse, Lever or Ashby job.</div>
+      <div class="row empty">No applications yet. Press Apply (API jobs) or Prepare draft (Email and Manual jobs) on the Shortlist.</div>
     }
   </div>
 
@@ -41,6 +41,38 @@
         </div>
       }
 
+      @if (d.status === 'DraftReady') {
+        @if (d.applyCategory === 'Email') {
+          <div class="box wait">
+            Email draft is ready. Nothing has been sent. Open it in your mail app, attach your resume and send.
+            <div class="kv"><b>To</b><span>{{ d.applyEmail }}</span></div>
+            <div class="kv"><b>Subject</b><span>{{ d.emailSubject }}</span></div>
+            <div class="acts">
+              <a class="btn p" [href]="mailto(d)">Open in mail app</a>
+              <button class="btn" (click)="copy(d.coverLetter, 'Cover letter')">Copy body</button>
+              <button class="btn" (click)="markApplied(d)">I sent it</button>
+            </div>
+          </div>
+        } @else {
+          <div class="box wait">
+            The draft is ready and nothing has been submitted. If Playwright MCP is on, the form is open and pre-filled in your
+            browser: check it and press Submit there. Otherwise open the link, the cover letter is below.
+            <div class="acts">
+              <a class="btn p" [href]="link(d)" target="_blank" rel="noopener noreferrer">Open apply link</a>
+              <button class="btn" (click)="copy(d.coverLetter, 'Cover letter')">Copy cover letter</button>
+              <button class="btn" (click)="markApplied(d)">I submitted it</button>
+            </div>
+          </div>
+        }
+        @if (copied()) { <div class="m" role="status">{{ copied() }} copied.</div> }
+        @if (d.coverLetter) {
+          <div>
+            <h3>Cover letter</h3>
+            <div class="letter">{{ d.coverLetter }}</div>
+          </div>
+        }
+      }
+
       @if (d.status === 'PausedNeedsInput') {
         @for (q of questions(d); track q.id) {
           <div class="box ask">
@@ -54,7 +86,7 @@
           <div class="box ask">
             {{ q.prompt }}
             <div class="acts">
-              <a class="btn p" [href]="d.url" target="_blank" rel="noopener noreferrer">Open job link</a>
+              <a class="btn p" [href]="link(d)" target="_blank" rel="noopener noreferrer">Open job link</a>
               <button class="btn" (click)="manual(d)">I will apply manually</button>
             </div>
           </div>
@@ -64,7 +96,7 @@
       @if (d.status === 'Failed' || d.status === 'Cancelled' || d.status === 'ManualApply') {
         <div class="acts">
           @if (d.status !== 'ManualApply') { <button class="btn p" (click)="retry(d)">Retry</button> }
-          <a class="btn" [href]="d.url" target="_blank" rel="noopener noreferrer">Open job link</a>
+          <a class="btn" [href]="link(d)" target="_blank" rel="noopener noreferrer">Open job link</a>
         </div>
       }
 

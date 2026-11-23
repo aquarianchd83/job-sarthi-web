@@ -4,6 +4,9 @@
     @if (stats(); as s) {
       <div class="sub">{{ s.shortlisted }} of {{ s.total }} fetched jobs match your rules, best fit first.</div>
     }
+    @if (counts(); as c) {
+      @if (c.closed > 0) { <div class="sub">{{ c.closed }} jobs are hidden because they no longer accept applications.</div> }
+    }
   </div>
   <div class="fl">
     <span class="fit">Fit
@@ -11,16 +14,18 @@
       to
       <input type="number" min="0" max="100" aria-label="Highest fit" [value]="fitMax()" (input)="setFit('max', $any($event.target).value)" />
     </span>
-    <button class="btn" [class.on]="filter() === 'all'" (click)="filter.set('all')">All</button>
-    <button class="btn" [class.on]="filter() === 'auto'" (click)="filter.set('auto')">Auto-apply</button>
-    <button class="btn" [class.on]="filter() === 'manual'" (click)="filter.set('manual')">Manual</button>
+    <button class="btn" [class.on]="filter() === 'all'" (click)="filter.set('all')">All ({{ jobs().length }})</button>
+    <button class="btn" [class.on]="filter() === 'Api'" (click)="filter.set('Api')" title="Greenhouse, Lever, Ashby, Workable">API apply ({{ count('Api') }})</button>
+    <button class="btn" [class.on]="filter() === 'Email'" (click)="filter.set('Email')" title="The posting asks for your resume by email">Email apply ({{ count('Email') }})</button>
+    <button class="btn" [class.on]="filter() === 'Manual'" (click)="filter.set('Manual')" title="Draft and link ready, you submit">Manual apply ({{ count('Manual') }})</button>
     <button class="btn" (click)="rescore()" [disabled]="busy()">{{ busy() ? 'Working...' : 'Re-apply rules' }}</button>
+    <button class="btn" (click)="checkPages()" [disabled]="checking()" title="Open the apply pages and hide jobs that no longer accept applications">{{ checking() ? 'Checking...' : 'Check apply pages' }}</button>
   </div>
 </div>
 @if (error()) { <p class="err">{{ error() }}</p> }
 
 <div class="card flush list">
-  <div class="row h"><div>Fit</div><div>Role</div><div>Source</div><div>Location</div><div>Fetched (IST)</div><div>Actions</div></div>
+  <div class="row h"><div>Fit</div><div>Role</div><div>Apply type</div><div>Source</div><div>Location</div><div>Fetched (IST)</div><div>Actions</div></div>
   @for (j of visible(); track j.id) {
     <div class="row">
       <div class="sc" [title]="j.scoreNotes ?? ''">{{ j.fitScore }}<span class="bar"><i [style.width.%]="j.fitScore"></i></span></div>
@@ -28,6 +33,10 @@
         <div class="t">{{ j.title }}</div>
         <div class="m">{{ j.company || 'Company in the link' }}</div>
         @if (j.scoreNotes) { <div class="notes">{{ j.scoreNotes }}</div> }
+      </div>
+      <div>
+        <span [class]="catClass(j)" [title]="j.categoryReason ?? ''">{{ catLabel(j) }}</span>
+        @if (j.applyEmail) { <div class="m em">{{ j.applyEmail }}</div> }
       </div>
       <div><span [class]="'b ' + badge(j)">{{ label(j.sourceKey) }}</span></div>
       <div class="m">{{ j.location || '-' }} &middot; {{ j.workMode }}</div>
@@ -37,7 +46,8 @@
         @if (j.canAutoApply) {
           <button class="btn p" (click)="apply(j)">Apply</button>
         } @else {
-          <a class="btn" [href]="j.url" target="_blank" rel="noopener noreferrer">Open link</a>
+          <button class="btn p" (click)="draft(j)" [title]="j.applyCategory === 'Email' ? 'Cover letter and email ready, you send it' : 'Opens the form pre-filled, you press Submit'">Prepare draft</button>
+          <a class="btn" [href]="link(j)" target="_blank" rel="noopener noreferrer">Open link</a>
           <button class="btn" (click)="markApplied(j)">Mark applied</button>
         }
       </div>

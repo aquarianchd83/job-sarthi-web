@@ -27,3 +27,7 @@ a.btn { text-decoration: none; display: inline-block; }
 .ev { display: flex; gap: 12px; }
 .ev time { width: 110px; flex: none; color: #5b6675; }
 .shot { width: 100%; border: 1px solid #c5ccd6; border-radius: 6px; }
+.kv { display: flex; gap: 10px; font-size: 13px; }
+.kv b { width: 60px; flex: none; }
+.kv span { overflow-wrap: anywhere; }
+.letter { white-space: pre-wrap; font-size: 13px; line-height: 1.5; max-height: 260px; overflow-y: auto; border: 1px solid #e1e5eb; border-radius: 6px; padding: 10px; }
