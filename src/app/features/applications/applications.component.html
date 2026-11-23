@@ -54,6 +54,9 @@
             </div>
           </div>
         } @else {
+          @if (d.categoryReason?.startsWith('Auto-apply is not possible')) {
+            <div class="box ask" role="note"><b>Why not auto-applied:</b> {{ d.categoryReason }}</div>
+          }
           <div class="box wait">
             The draft is ready and nothing has been submitted. If Playwright MCP is on, the form is open and pre-filled in your
             browser: check it and press Submit there. Otherwise open the link, the cover letter is below.

@@ -29,6 +29,8 @@ export interface ApplicationDetail extends ApplicationListItem {
   applyEmail: string | null;
   /** Set for email apply. */
   emailSubject: string | null;
+  /** Why the job is Email/Manual apply, e.g. "Auto-apply is not possible on stripe.com: ...". */
+  categoryReason: string | null;
 }
 
 export interface SavedAnswer { id: number; question: string; answer: string; }
