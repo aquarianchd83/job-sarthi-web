@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { ApplyCategory, CategoryCounts, Job, ShortlistStats } from '../../core/models/job.model';
 import { ShortlistService } from '../../core/services/shortlist.service';
 import { RulesService } from '../../core/services/rules.service';
@@ -12,10 +13,20 @@ const LABELS: Record<string, string> = {
   weworkremotely: 'WeWorkRemotely', naukri: 'Naukri alert', linkedin: 'LinkedIn alert',
 };
 
+const VIEW_KEY = 'shortlist.view';
+function readView(): 'grouped' | 'list' {
+  try { return localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grouped'; } catch { return 'grouped'; }
+}
+const GROUPS: { key: ApplyCategory; title: string; hint: string }[] = [
+  { key: 'Api', title: 'API apply', hint: 'Greenhouse, Lever, Ashby, Workable. The form is filled for you' },
+  { key: 'Email', title: 'Email apply', hint: 'Send your resume by email. Draft ready, you send it' },
+  { key: 'Manual', title: 'Manual apply', hint: 'Draft and link ready. You press Submit' },
+];
+
 @Component({
   selector: 'app-shortlist',
   standalone: true,
-  imports: [IstDatePipe, TailorPanelComponent],
+  imports: [IstDatePipe, TailorPanelComponent, NgTemplateOutlet],
   templateUrl: './shortlist.component.html',
   styleUrl: './shortlist.component.scss',
 })
@@ -25,6 +36,12 @@ export class ShortlistComponent implements OnInit {
   stats = signal<ShortlistStats | null>(null);
   filter = signal<'all' | ApplyCategory>('all');
   counts = signal<CategoryCounts | null>(null);
+  /** Grouped by apply category (default) or one list. Remembered on this browser. */
+  view = signal<'grouped' | 'list'>(readView());
+  setView(v: 'grouped' | 'list') { this.view.set(v); try { localStorage.setItem(VIEW_KEY, v); } catch { /* storage blocked */ } }
+  private inFit = (j: Job) => j.fitScore >= this.fitMin() && j.fitScore <= this.fitMax();
+  groups = computed(() => GROUPS.map(g => ({ ...g, jobs: this.jobs().filter(j => j.applyCategory === g.key && this.inFit(j)) })));
+  unsorted = computed(() => this.jobs().filter(j => !j.applyCategory && this.inFit(j)));
   checking = signal(false);
   // Quick view filter on top of the saved rule. Not saved: change the range in Rules to make it permanent.
   fitMin = signal(0);

@@ -20,3 +20,10 @@ a.btn { text-decoration: none; display: inline-block; }
 .b.cat-email { background: #e9e3fb; color: #3f2a86; }
 .b.cat-manual { background: #fbebd3; color: #7a4a06; }
 .b.cat-none { background: #e8ecf3; color: #3a4658; }
+.views { display: flex; gap: 8px; margin-top: 14px; }
+.views .btn.on { background: #14181f; color: #fff; border-color: #14181f; }
+.grp { margin-top: 18px; }
+.gh { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid #e8ebf0; flex-wrap: wrap; }
+.gh .b { font-size: 13px; font-weight: 600; padding: 3px 11px; }
+.gh .m { font-size: 13px; }
+.grp .row.h { border-top: 0; }
