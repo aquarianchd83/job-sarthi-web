@@ -77,6 +77,9 @@
       }
 
       @if (d.status === 'PausedNeedsInput') {
+        <div class="acts">
+          <button class="btn" (click)="retry(d)" title="Open the form again and ask its questions afresh (with their options)">Read the form again</button>
+        </div>
         @for (q of questions(d); track q.id) {
           <div class="box ask" role="group" [attr.aria-label]="q.prompt">
             <b>{{ q.prompt }}</b>
